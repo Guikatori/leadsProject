@@ -1,0 +1,29 @@
+
+  .input{
+    appearance: none;
+    height: 32px;
+    border: 1px solid rgb(255, 118, 39, 0.5);
+    border-radius: 8px;
+    font-size: 14px;
+    padding-left: 16px;
+    padding-right: 16px;
+    color: rgb(133, 131, 131);
+    transition-property: border, color;
+    transition-duration: 400ms;
+    position: relative;
+    width: 340px;
+  }
+  .input:focus {
+    border: 1px solid rgb(255, 29, 29);
+    color: rgb(255, 118, 39);
+    outline: none;
+  }
+  
+
+.p{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    margin-bottom: 3px;
+    font-weight: bold;
+}
