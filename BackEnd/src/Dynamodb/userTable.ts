@@ -1,16 +1,19 @@
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
 import client from "./awsClient"
-import { v4 as uuidv4 } from "uuid";
-
+import makeHash from "../Utils/makeHash";
 
 const addUserItem = async(formData: {name: string; email: string; phone: string; password: string}) => {
+    
+    const passwordHash = makeHash(formData.password)
+
     const params ={
         TableName: "LeadsPicker",
         Item: {
-            Id: {S: uuidv4()},
+            Id: {S: '1'},
             name: {S: formData.name},
             email: {S: formData.email},
             phone: {S: formData.phone},
+            password: {S: passwordHash}
         }
     }
     try {

@@ -8,7 +8,7 @@ interface ButtonProps{
 
 function ButtonTemplate(props: ButtonProps){
     return (
-        <button onClick={props.onclick} className="button-87">{props.name}</button>
+        <button onClick={props.onclick} className="button">{props.name}</button>
     )
 }
 

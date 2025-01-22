@@ -55,3 +55,7 @@
   .register{
     color: rgb(255, 118, 39);
   }
+
+  .warningCard{
+    display: flex;
+  }

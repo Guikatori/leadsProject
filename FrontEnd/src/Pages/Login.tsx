@@ -3,8 +3,14 @@ import sunhub from "../assets/sunhubbr_logo.jpg";
 import "./Login.css";
 import ButtonTemplate from "../components/ButtonTemplate";
 import InputTemplate from "../components/InputTemplate";
+import Warning from '../components/warningTemplate';
 
 function LoginPage() {
+
+  const loginConfirm = () =>{
+
+  }
+
   return (
     <>
       <div>
@@ -21,6 +27,7 @@ function LoginPage() {
       <p className="greyText">
         Não possui uma conta? <Link to="/register" className="register">Registre-se</Link>
       </p>
+      <Warning color="#f44336" keyWord="Danger!" message="Indicates a dangerous or potentially negative action."/>
     </>
   );
 }
