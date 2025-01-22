@@ -5,9 +5,9 @@ import { v4 as uuidv4 } from "uuid";
 
 const addUserItem = async(formData: {name: string; email: string; phone: string; password: string}) => {
     const params ={
-        TableName: "LeadPicker",
+        TableName: "LeadsPicker",
         Item: {
-            id: {N: uuidv4()},
+            Id: {S: uuidv4()},
             name: {S: formData.name},
             email: {S: formData.email},
             phone: {S: formData.phone},
