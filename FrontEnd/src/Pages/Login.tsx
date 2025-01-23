@@ -27,7 +27,6 @@ function LoginPage() {
       <p className="greyText">
         Não possui uma conta? <Link to="/register" className="register">Registre-se</Link>
       </p>
-      <Warning color="#f44336" keyWord="Danger!" message="Indicates a dangerous or potentially negative action."/>
     </>
   );
 }
