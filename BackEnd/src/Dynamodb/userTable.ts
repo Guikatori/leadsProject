@@ -16,7 +16,6 @@ const addUserItem = async(formData: {name: string; email: string; phone: string;
             email: {S: formData.email},
             phone: {S: formData.phone},
             password: {S: passwordHash}
-
         }
     }
     try {
@@ -39,7 +38,6 @@ const nextId = async ()=>{
     if (scanResult.Count !== undefined) {
         const itemCount = scanResult.Count;
         id = itemCount + 1; 
-        console.log(id)
     } else {
         console.log("Erro ou resultado inválido: Count não definido.");
     }

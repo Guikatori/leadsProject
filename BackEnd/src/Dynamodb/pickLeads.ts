@@ -1,24 +1,32 @@
 import { ScanCommand } from "@aws-sdk/client-dynamodb";
 import client from "./awsClient"
-    
+import createContact from "../PloomesDeals/createContact"
+
 const pickLeads = async (country: string, limit: number) => {
     const params = {
         TableName: "Leads", 
         Limit: limit, 
-        FilterExpression: "isPicked = :isPicked AND Country = :country",
+        FilterExpression: "Country = :country",
         ExpressionAttributeValues: {
-          ":country": { S: country },  
+          ":country": { S: country }  
         },
     };
-    
-    try {
+    try{
         const result = await client.send(new ScanCommand(params));
-    
-        return result.Items || [];
-    } catch (error) {
-        console.error("Erro ao buscar leads:", error);
-        throw error;
-    }
+        const contactData =  await createContact()
+        console.log(contactData)
+        return {statusCode: 200, data: result.Items}
+    } 
+     catch (error) {
+    console.error(
+      `Mensagem de erro: ${error.message}, Código de status: ${error.$metadata?.httpStatusCode}`);
+    return {
+      statusCode: error.$metadata?.httpStatusCode || 500,
+      data: [],
+      error: error.message, 
     };
+  }
+
+};
 
 export default pickLeads;

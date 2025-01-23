@@ -28,30 +28,36 @@ app.post("/leadsPicker", async (req, res) => {
       return;
     }
   
-    await pickLeads(country, parseInt(limit, 10)) 
-    try {
-      res.status(200).json({ message: "Leads encontrados"});
-      }
-    catch{
-        res.status(500).json({ message: "Erro ao buscar leads" });
-      }}
-    );
+    const response = await pickLeads(country, parseInt(limit, 10)) 
+      
+    if (response.statusCode === 200) {
+      res.status(200).json({ message: "Leads encontrados", leads: response.data });
+    } else if (response.statusCode === 404) {
+      res.status(404).json({ message: "Nenhum lead encontrado" });
+    } else if (response.statusCode === 500) {
+      res.status(500).json({ message: "Erro ao buscar leads", error: response.error });
+    } else {
+      res.status(500).json({ message: "Erro inesperado" });
+    }
+  }
+);
   
 
 
 app.post("/login", async (req, res)=>{
-  const { email, password } = req.body; 
+  const { loginEmail, loginPassword } = req.body; 
 
-  if (!email || !password) {
-    res.status(400).json({ message: "email e senha são obrigatórios." });
+  if (!loginEmail || !loginPassword) {
+    res.status(401).json({ message: "email e senha são obrigatórios." });
     return;
   }
-  try{
-    const result =  await LoginConfirmation(email,password );
+    const result =  await LoginConfirmation(loginEmail,loginPassword );
+    if(result){
     res.status(200).json({message: "Login Encontrado"})
-   }catch{
-    res.status(500).json({ message: "Erro ao Achar Conta" });
-   }  
+    }
+    if(!result){
+    res.status(400).json({ message: "Erro ao Achar Conta" });
+  }
 });
 
 

@@ -1,27 +1,27 @@
 import React from "react";
 import { authHeaders, userUrl } from "./credentials";
+import { handleStatus } from "../utils/handleStatusCode";
+import * as dotenv from "dotenv";
+
+dotenv.config()
 
 const getPloomesId = async (email: string) => {
-    const url = `${userUrl}?$top=1&$select=Id&$filter=Email eq '${email}'`;
+  const url = `${process.env.BASEURL}?$top=1&$select=Id&$filter=Email eq '${email}'`;
     
     const response = await fetch(url, {
       method: "GET",
       headers: authHeaders, 
     });
 
-    if (!response.ok) {
-      console.error(`Erro na requisição: ${response.status}`);
-      return '';
-    }
-    const data = await response.json();
+    const requestSucess = handleStatus(response.status, await response.text())
 
-    if (data.value && data.value.length > 0 && data.value[0].Id !== undefined) {
-        return data.value[0].Id.toString();
-  } 
-     else {
-    console.error("Nenhum resultado encontrado para o email fornecido.");
-        return '';
-  }
+    if(requestSucess){
+      const data = await response.json();
+      if (data.value.length > 0) {
+          return data.value[0].Id.toString();
+    }if(!requestSucess){
+      return null;
+    }}
 };
 
 export default getPloomesId;

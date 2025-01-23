@@ -6,6 +6,9 @@ import MaskInput from '../components/inputWithMask';
 import map from '../assets/4710388-mapa-do-brasil-sobre-fundo-branco-gratis-vetor.jpg'
 import axios from "axios";
 import getPloomesId from "../ploomesUserid/getUserId.tsx"
+import { handleStatus } from '../utils/handleStatusCode.tsx';
+import { Route } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
   const [name, setName] = useState('');
@@ -13,30 +16,45 @@ function RegisterPage() {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
 
+
+  const inputValuesConfirm = ()=>{
+    if(name && email && phone && password && confirmPassword){
+      return true
+    }else{
+      return false
+    }}
+  
   const handleSubmit = async () => {
 
-    const ploomesId = await getPloomesId(email);
+    
+    if(password !== confirmPassword){
+      alert("As senhas não Correspondem")
+      return;
+    }
 
+    const ploomesId = await getPloomesId(email);    
+    
     const formData = {
       name,
       email,
       phone,
       password,
-      confirmPassword,
       ploomesId,
     };
 
-    console.log(ploomesId)
-    
-    if(password !== confirmPassword){
-      alert("As senhas não Correspondem")
+
+    if (!inputValuesConfirm()) {
+      alert("Preencha todos os dados");
+      return;
     }
       const response = await axios.post("http://localhost:3000/add-user", formData)
-      if(response.status){
-        console.log(response)
-    }
-  };
+      const requestSucess = handleStatus(response.status, JSON.stringify(response.data))
+      if(requestSucess){
+        navigate("/Leads");
+      }
+  }
 
   return (
     <>

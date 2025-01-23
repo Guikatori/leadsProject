@@ -18,7 +18,7 @@ const SelectTemplate = (props: SelectTemplateProps) => {
   };
 
   return (
-    <FormControl style={{ width: "120px", height: "20px" }}>
+    <FormControl style={{ width: "225px", height: "20px"}}>
       <InputLabel>Estado</InputLabel>
       <Select
         value={internalValue} 
