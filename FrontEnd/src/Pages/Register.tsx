@@ -14,21 +14,30 @@ function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState(''); /*Senha pode ser de qualquer tamanho ? */
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
 
-
+   /*
+     *  if (x){ ... } 
+     *   return
+     * 
+     *  EM situações sem demais condições
+     */
+  
   const inputValuesConfirm = ()=>{
     if(name && email && phone && password && confirmPassword){
       return true
     }else{
       return false
     }}
-  
+ 
+    
   const handleSubmit = async () => {
 
-    
+    /*
+    Pop-up?
+    */
     if(password !== confirmPassword){
       alert("As senhas não Correspondem")
       return;
@@ -54,6 +63,8 @@ function RegisterPage() {
       if(requestSucess){
         navigate("/Leads");
       }
+
+      /*caso contrário..? */
   }
 
   return (

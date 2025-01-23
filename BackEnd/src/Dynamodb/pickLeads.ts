@@ -2,6 +2,7 @@ import { ScanCommand } from "@aws-sdk/client-dynamodb";
 import client from "./awsClient"
 import createContact from "../PloomesDeals/createContact"
 
+
 const pickLeads = async (country: string, limit: number) => {
     const params = {
         TableName: "Leads", 

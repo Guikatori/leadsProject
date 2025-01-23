@@ -21,9 +21,18 @@ function LoginPage() {
     console.log(loginEmail)
 
     try {
+      
       const response = await axios.post("http://localhost:3000/login", loginData);
 
       if (response.status === 200) {
+        /*
+        
+          Não deveria ter um navigate?
+       
+          E mesmo criando uma conta, estou recebendo 400 (bad request)
+
+        */
+
         console.log("Conta Existe:", response.data);
       }
     } catch (error) {

@@ -5,25 +5,31 @@ import makeHash from "../Utils/makeHash";
 
 const LoginConfirmation = async (Email: string, Password: string) => {
 
-    const confirmPassword =  makeHash(Email,Password)
+    console.log(Email);
+    console.log(Password);
+
+
+    const hashedPassword =  makeHash(Email,Password)
+    if(!hashedPassword){
+        ///tratar        
+    }
+
+
+    console.log(hashedPassword);
 
     const params = {
         TableName: "LeadsPicker", 
-        Limit: 1, 
         FilterExpression: "email = :email AND password = :password",
         ExpressionAttributeValues: {
           ":email": { S: Email },  
-          ":password": { S: confirmPassword },  
+          ":password": { S: hashedPassword },  
         },
     };
     
     const result = await client.send(new ScanCommand(params));
+
     
-    if(result.Items && result.Items.length > 0){    
-        return true;
-    }else{
-        return false;
-    }
+    return result.Count > 0;   
 };
 
 export default LoginConfirmation;

@@ -17,7 +17,9 @@ const Leads = () => {
     };
 
     console.log(leadsData)
-
+    /*
+      Evite usar try-catch, veja: https://medium.com/@ladumorrahul/reimagining-error-handling-beyond-try-catch-with-async-await-38a21840ffb4
+    */
     try {
       const response = await axios.post("http://localhost:3000/leadsPicker", leadsData);
 

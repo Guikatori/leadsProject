@@ -1,13 +1,28 @@
-export const contactPayload = ()=>{
-return(
-    {
-        "Name": "teste Solar",
-         "StreetAddress": "Av. Gen. Osório, 555 - Sala 01",
-        "TypeId": 1,
+interface Phone {
+
+    PhoneNumber: string
+}
+
+
+export interface Contact {
+
+    Name: string,
+    StreetAddress: string,
+    TypeId: number,
+    Phones: Array<Phone>
+}
+
+
+export const contactPayload = (Name: string, Address: string, TypeId: number, Phone: string) => {
+
+    return {
+        "Name": Name,
+        "StreetAddress": Address,
+        "TypeId": TypeId,
         "Phones": [
             {
-                "PhoneNumber": "(43) 988537172"
+                "PhoneNumber": Phone
             }
         ]
     }
-)}
+}

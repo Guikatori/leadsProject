@@ -1,7 +1,7 @@
 import * as crypto from 'crypto';
 
 const makeHash = (email: String, password: String) =>{
-    if(!email && !password){
+    if(!email || !password){
         console.log("Hash Error")
         return null
     }
