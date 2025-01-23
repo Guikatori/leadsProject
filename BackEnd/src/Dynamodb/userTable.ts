@@ -26,6 +26,13 @@ const addUserItem = async(formData: {name: string; email: string; phone: string;
     }
 }
 
+/*  
+    
+    Atualização:
+    Considere usar uma SORT KEY ou um Banco relacional
+    Veja: https://dynobase.dev/code-examples/dynamodb-get-last-inserted-item/#:~:text=To%20get%20the%20last%20inserted,the%20highest%20primary%20key%20value.
+*/
+
 const nextId = async ()=>{
     let id: number = 0;
     const scanParams  = {

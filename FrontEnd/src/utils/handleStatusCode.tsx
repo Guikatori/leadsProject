@@ -1,5 +1,19 @@
 
-export const handleStatus = (statusCode: number, text: string)=>{
+
+
+
+export const handleStatus = (statusCode: number, text: string/*, logResponse: boolean*/)=>{
+
+
+    // if(logResponse){
+
+    //     console.log(`Status: ${statusCode}`)
+    //     console.log(`Body: ${text}`)
+
+    // }
+    
+    // return statusCode >= 200 && statusCode <= 299;
+
 
     if(statusCode === 200){
         console.log("Requisição Feita com sucesso")
