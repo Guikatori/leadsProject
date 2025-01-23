@@ -5,6 +5,7 @@ import InputTemplate from '../components/InputTemplate';
 import MaskInput from '../components/inputWithMask';  
 import map from '../assets/4710388-mapa-do-brasil-sobre-fundo-branco-gratis-vetor.jpg'
 import axios from "axios";
+import getPloomesId from "../ploomesUserid/getUserId.tsx"
 
 function RegisterPage() {
   const [name, setName] = useState('');
@@ -14,21 +15,26 @@ function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleSubmit = async () => {
+
+    const ploomesId = await getPloomesId(email);
+
     const formData = {
       name,
       email,
       phone,
       password,
       confirmPassword,
+      ploomesId,
     };
 
+    console.log(ploomesId)
+    
     if(password !== confirmPassword){
       alert("As senhas não Correspondem")
-    }if(password === confirmPassword){
+    }
       const response = await axios.post("http://localhost:3000/add-user", formData)
       if(response.status){
         console.log(response)
-      }
     }
   };
 
@@ -45,6 +51,7 @@ function RegisterPage() {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            class="input"
           />
           <InputTemplate
             id="email"
@@ -52,6 +59,7 @@ function RegisterPage() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            class="input"
           />
 
           <MaskInput
@@ -68,6 +76,7 @@ function RegisterPage() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            class="input"
           />
           <InputTemplate
             id="passwordConfirm"
@@ -75,6 +84,7 @@ function RegisterPage() {
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            class="input"
           />
         </div>
         <ButtonTemplate name="Registre-Se" onclick={handleSubmit} />

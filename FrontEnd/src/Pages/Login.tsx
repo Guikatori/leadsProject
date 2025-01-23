@@ -19,8 +19,8 @@ function LoginPage() {
       <h1 className="Title">Lead Picker</h1>
       <div>
         <div className="inputLine">
-          <InputTemplate id="Login" name="Login" placeholder="Insira Seu Email" type="email" />
-          <InputTemplate id="Senha" name="Senha" placeholder="Insira Sua Senha" type="password" />
+          <InputTemplate id="Login" name="Login" placeholder="Insira Seu Email" type="email"    class="input"/>
+          <InputTemplate id="Senha" name="Senha" placeholder="Insira Sua Senha" type="password" class="input"/>
         </div>
         <ButtonTemplate name="Login" />
       </div>

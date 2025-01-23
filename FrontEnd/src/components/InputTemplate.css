@@ -29,3 +29,28 @@
     margin-bottom: 3px;
     font-weight: bold;
 }
+
+.leadInput {
+  width: 120; 
+  padding: 10px; 
+  height: 58px;
+  border: 1px solid #e0e0e0; 
+  border-radius: 4px; 
+  font-size: 16px;
+  font-family: Arial, sans-serif; 
+  box-sizing: border-box; 
+  transition: border-color 0.3s, box-shadow 0.3s; 
+  margin-top: 15px;
+  font-weight: 500;
+}
+
+.leadInput:focus {
+  border-color: #2647ff; 
+  box-shadow: 0 0 5px rgba(30, 90, 255, 0.5); 
+  outline: none; 
+}
+
+.leadInput::placeholder {
+  color: #bdbdbd;
+  font-size: 14px;
+}

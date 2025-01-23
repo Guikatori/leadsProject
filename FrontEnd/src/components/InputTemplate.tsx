@@ -8,7 +8,7 @@ interface InputProps{
     type: string;
     value?: string;  
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
-    required?: string;
+    class: string;
 }
 
 const InputTemplate = (props: InputProps) => {
@@ -19,9 +19,10 @@ const InputTemplate = (props: InputProps) => {
           value={props.value}  
           onChange={props.onChange}  
           placeholder={props.placeholder}
-          className="input"
+          className={props.class}
           type={props.type}
           id={props.id}
+          required
         />
       </div>
     );
