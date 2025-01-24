@@ -21,7 +21,6 @@ const LoginConfirmation = async (Email: string, Password: string): Promise<boole
     };
 
     const result = await client.send(new ScanCommand(params));
-
     return result.Count > 0;
 };
 

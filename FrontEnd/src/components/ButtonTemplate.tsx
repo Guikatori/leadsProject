@@ -1,15 +1,20 @@
 import React from "react";
-import "./ButtonTemplate.css"
+import "./ButtonTemplate.css";
 
-interface ButtonProps{
-    name: string;
-    onclick?: ()=> void;
+interface ButtonProps {
+  name: string;
+  onclick?: () => void;
+  formsSubmit?: boolean;
 }
 
-function ButtonTemplate(props: ButtonProps){
-    return (
-        <button onClick={props.onclick} className="button">{props.name}</button>
-    )
+function ButtonTemplate(props: ButtonProps) {
+  const buttonType = props.formsSubmit ? "submit" : "button"; 
+
+  return (
+    <button onClick={props.onclick} className="button" type={buttonType}>
+      {props.name}
+    </button>
+  );
 }
 
 export default ButtonTemplate;

@@ -16,43 +16,14 @@ function RegisterPage() {
   const [password, setPassword] = useState(''); 
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
-  
-  const inputValuesConfirm = () =>{
-    return name && email && phone && password && confirmPassword ? true : false
-    }
 
-  const handleSubmit = async (): Promise<void> => {
-    if(password !== confirmPassword){
-      alert("As senhas não Correspondem")
-      return;
-    }
-
-    const responsePloomesId  = await axios.post("http://localhost:3000/ploomesId", { email });      
-    const ploomesId = responsePloomesId ? responsePloomesId.data.ploomesId : null
-
-    const formData = {
-      name,
-      email,
-      phone,
-      password,
-      ploomesId,
-    };
-
-
-    if (!inputValuesConfirm()) {
-      alert("Preencha todos os dados");
-      return;
-    }
-      const response = await axios.post("http://localhost:3000/add-user", formData)
-      const requestSucess = handleStatus(response.status, JSON.stringify(response.data))
-      return requestSucess ?  navigate("/Leads") : console.log(`Erro na Verificação da conta: ${response.statusText}`)
-  }
 
   return (
     <>
     <div className='box'>
       <div className='forms'>
       <h1 className="Title">Lead Picker</h1>
+      <form onSubmit={async (e) =>  handleSubmit(e, name, email, phone, password, confirmPassword, navigate)}>
       <div>
         <div className="inputLine">
           <InputTemplate
@@ -97,8 +68,9 @@ function RegisterPage() {
             class="input"
           />
         </div>
-        <ButtonTemplate name="Registre-Se" onclick={handleSubmit} />
+        <ButtonTemplate name="Registre-Se"  formsSubmit={true} />
       </div>
+      </form>
     </div>
     <div className='imageContainer'>
       <img className='Mapimg' src={map} alt='map'/>
@@ -107,5 +79,50 @@ function RegisterPage() {
     </>
   );
 }
+
+  
+const inputValuesConfirm = (name: string, email: string, phone: string, password: string, confirmPassword: string) => {
+  return name && email && phone && password && confirmPassword;
+};
+
+const handleSubmit = async (
+  e: React.FormEvent,
+  name: string,
+  email: string,
+  phone: string,
+  password: string,
+  confirmPassword: string,
+  navigate: (path: string) => void
+) => {
+  e.preventDefault();
+
+  if (password !== confirmPassword) {
+    alert('As senhas não Correspondem');
+    return;
+  }
+
+  const responsePloomesId = await axios.post('http://localhost:3000/ploomesId', { email });
+  const ploomesId = responsePloomesId ? responsePloomesId.data.ploomesId : null;
+
+  const formData = {
+    name,
+    email,
+    phone,
+    password,
+    ploomesId,
+  };
+
+  if (!inputValuesConfirm(name, email, phone, password, confirmPassword)) {
+    alert('Preencha todos os dados');
+    return;
+  }
+
+  const response = await axios.post('http://localhost:3000/add-user', formData);
+  const requestSuccess = handleStatus(response.status, JSON.stringify(response.data));
+  return requestSuccess
+    ? navigate('/Leads')
+    : console.log(`Erro na Verificação da conta: ${response.statusText}`);
+};
+
 
 export default RegisterPage;

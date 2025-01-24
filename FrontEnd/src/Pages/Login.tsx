@@ -14,23 +14,13 @@ function LoginPage() {
   const [loginEmail, setloginEmail] = useState("");
   const [loginPassword, setloginPassword] = useState("");
 
-  const loginData = {
-    loginEmail, 
-    loginPassword
-  }
-
-  const loginConfirm = async () =>{
-    console.log(loginEmail)
-      const response = await axios.post("http://localhost:3000/login", loginData);
-      return response.status === 200 ?  navigate("/Leads") :  console.log(`Erro na Verificação da conta ${response.statusText}`)
-    }
-
   return (
     <>
       <div>
         <img src={sunhub} className="logo" alt="Sunhub" />
       </div>
       <h1 className="Title">Lead Picker</h1>
+      <form onSubmit={async (e) =>  loginConfirm(e, loginEmail, loginPassword, navigate)}>
       <div>
         <div className="inputLine">
           <InputTemplate id="Login" name="Login" placeholder="Insira Seu Email" type="email" 
@@ -39,13 +29,30 @@ function LoginPage() {
           <InputTemplate id="Senha" name="Senha" placeholder="Insira Sua Senha" type="password" 
             value={loginPassword} onChange={(e) => setloginPassword(e.target.value)} class="input"/>
         </div>
-        <ButtonTemplate name="Login" onclick={loginConfirm}/>
+        <ButtonTemplate name="Login" formsSubmit={true}/>
       </div>
       <p className="greyText">
         Não possui uma conta? <Link to="/register" className="register">Registre-se</Link>
       </p>
+      </form>
     </>
   );
 }
+
+const loginConfirm = async (
+  e: React.FormEvent<HTMLFormElement>, 
+  loginEmail: string,
+  loginPassword: string,
+  navigate: (path: string) => void
+) => {
+  e.preventDefault();   const loginData = {
+    loginEmail, 
+    loginPassword
+  }
+
+  console.log(loginEmail)
+    const response = await axios.post("http://localhost:3000/login", loginData);
+    return response.status === 200 ?  navigate("/Leads") :  console.log(`Erro na Verificação da conta ${response.statusText}`)
+  }
 
 export default LoginPage;
