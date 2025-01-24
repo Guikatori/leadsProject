@@ -6,16 +6,17 @@ const addUserItem = async (formData: { name: string; email: string; phone: strin
 
     const passwordHash = makeHash(formData.email, formData.password)
     const id = await nextId()
-
+    const userId = (parseInt(id, 10) + 1).toString()
     const params = {
         TableName: "LeadsUser",
         Item: {
-            Id: { S: id.toString() },
+            UserId: { N: userId },
             ploomesId: { S: formData.ploomesId },
             name: { S: formData.name },
             email: { S: formData.email },
             phone: { S: formData.phone },
-            password: { S: passwordHash }
+            password: { S: passwordHash },
+            createdAt: {S: new Date().toString()}
         }
     }
     try {
@@ -25,11 +26,14 @@ const addUserItem = async (formData: { name: string; email: string; phone: strin
         console.error("Error ao inserir o novo item", error)
     }
 }
+export default addUserItem;
+
 
 const nextId = async () => {
 
     const scanParams = {
         TableName: "LeadsUser",
+        
         ScanIndexForward: false,
         Limit: 1
     }
@@ -38,13 +42,11 @@ const nextId = async () => {
 
         if (scanResult.Items.length > 0) {
             const firstItem = scanResult.Items[0];
-            return firstItem.Id.S;
+            return firstItem.UserId.N;
         }
     }
     catch (error) {
         console.log(`error: ${error.text}, status: ${error.status}`)
+        return null
     }
 }
-
-
-export default addUserItem;
