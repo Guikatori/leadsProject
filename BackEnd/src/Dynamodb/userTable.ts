@@ -33,7 +33,7 @@ const nextId = async () => {
 
     const scanParams = {
         TableName: "LeadsUser",
-        
+
         ScanIndexForward: false,
         Limit: 1
     }
