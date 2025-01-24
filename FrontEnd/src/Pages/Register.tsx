@@ -5,7 +5,6 @@ import InputTemplate from '../components/InputTemplate';
 import MaskInput from '../components/inputWithMask';  
 import map from '../assets/4710388-mapa-do-brasil-sobre-fundo-branco-gratis-vetor.jpg'
 import axios from "axios";
-import getPloomesId from "../ploomesUserid/getUserId.tsx"
 import { handleStatus } from '../utils/handleStatusCode.tsx';
 import { Route } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
@@ -14,36 +13,21 @@ function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState(''); /*Senha pode ser de qualquer tamanho ? */
+  const [password, setPassword] = useState(''); 
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
-
-   /*
-     *  if (x){ ... } 
-     *   return
-     * 
-     *  EM situações sem demais condições
-     */
   
   const inputValuesConfirm = ()=>{
-    if(name && email && phone && password && confirmPassword){
-      return true
-    }else{
-      return false
-    }}
- 
-    
-  const handleSubmit = async () => {
+    return name && email && phone && password && confirmPassword ? true : false
+    }
 
-    /*
-    Pop-up?
-    */
+  const handleSubmit = async () => {
     if(password !== confirmPassword){
       alert("As senhas não Correspondem")
       return;
     }
 
-    const ploomesId = await getPloomesId(email);    
+    const ploomesId = await axios.post();    
     
     const formData = {
       name,
@@ -60,11 +44,7 @@ function RegisterPage() {
     }
       const response = await axios.post("http://localhost:3000/add-user", formData)
       const requestSucess = handleStatus(response.status, JSON.stringify(response.data))
-      if(requestSucess){
-        navigate("/Leads");
-      }
-
-      /*caso contrário..? */
+      return requestSucess ?  navigate("/Leads") : console.log(`Erro na Verificação da conta: ${response.statusText}`)
   }
 
   return (

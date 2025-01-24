@@ -6,13 +6,13 @@ dotenv.config()
 
 const authHeaders = {'Authorization' : `Bearer `, 'User-Key' :""}
 
-const createContact = async () => {
+const createContact = async (contactDb) => {
     const url = `https://api2.ploomes.com/Contacts`;
     
     const response = await fetch(url, {
       method: "POST",
       headers: authHeaders,
-      body: JSON.stringify(contactPayload())
+      body: JSON.stringify(contactPayload(contactDb))
        
     });
     const responseText = await response.text();
