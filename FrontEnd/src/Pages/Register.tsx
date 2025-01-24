@@ -27,8 +27,9 @@ function RegisterPage() {
       return;
     }
 
-    const ploomesId = await axios.post();    
-    
+    const responsePloomesId  = await axios.post("http://localhost:3000/ploomesId", { email });    
+    const ploomesId = responsePloomesId.data.ploomesId;
+
     const formData = {
       name,
       email,

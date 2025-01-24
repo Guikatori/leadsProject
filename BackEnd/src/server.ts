@@ -3,7 +3,9 @@ import cors from "cors";
 import addUserItem from "./Dynamodb/userTable";
 import pickLeads from "./Dynamodb/pickLeads";
 import LoginConfirmation from "./Dynamodb/LoginConfirmation"
+import getPloomesId from "./PloomesDeals/ploomesId";
 import * as dotenv from "dotenv";
+import e from "cors";
 
 dotenv.config();
 
@@ -42,8 +44,6 @@ app.post("/leadsPicker", async (req, res) => {
   }
 );
   
-
-
 app.post("/login", async (req, res)=>{
   const { loginEmail, loginPassword } = req.body; 
 
@@ -60,7 +60,17 @@ app.post("/login", async (req, res)=>{
   }
 });
 
-
+app.post("/ploomesId", async(req, res)=>{
+  const ploomesId = await getPloomesId(req.body.email);
+  if (ploomesId) {
+    res.status(200).json({
+      message: "Id Encontrado",
+      ploomesId, 
+    });
+  } else { 
+    res.status(404).json({ message: "Id Não Encontrado" });
+  }
+})
 
 
 app.listen(process.env.PORT, () => {
