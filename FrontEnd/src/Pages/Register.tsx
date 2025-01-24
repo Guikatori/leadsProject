@@ -33,6 +33,8 @@ function RegisterPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             class="input"
+            minLength={5}
+            maxLength={100}
           />
           <InputTemplate
             id="email"
@@ -41,6 +43,8 @@ function RegisterPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             class="input"
+            minLength={5}
+            maxLength={100}
           />
 
           <MaskInput
@@ -58,6 +62,8 @@ function RegisterPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             class="input"
+            minLength={5}
+            maxLength={50}
           />
           <InputTemplate
             id="passwordConfirm"
@@ -66,6 +72,8 @@ function RegisterPage() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             class="input"
+            minLength={5}
+            maxLength={50}
           />
         </div>
         <ButtonTemplate name="Registre-Se"  formsSubmit={true} />
@@ -79,11 +87,6 @@ function RegisterPage() {
     </>
   );
 }
-
-  
-const inputValuesConfirm = (name: string, email: string, phone: string, password: string, confirmPassword: string) => {
-  return name && email && phone && password && confirmPassword;
-};
 
 const handleSubmit = async (
   e: React.FormEvent,
@@ -102,7 +105,8 @@ const handleSubmit = async (
   }
 
   const responsePloomesId = await axios.post('http://localhost:3000/ploomesId', { email });
-  const ploomesId = responsePloomesId ? responsePloomesId.data.ploomesId : null;
+
+  const ploomesId = responsePloomesId.data.ploomesId || null;
 
   const formData = {
     name,
@@ -111,11 +115,6 @@ const handleSubmit = async (
     password,
     ploomesId,
   };
-
-  if (!inputValuesConfirm(name, email, phone, password, confirmPassword)) {
-    alert('Preencha todos os dados');
-    return;
-  }
 
   const response = await axios.post('http://localhost:3000/add-user', formData);
   const requestSuccess = handleStatus(response.status, JSON.stringify(response.data));

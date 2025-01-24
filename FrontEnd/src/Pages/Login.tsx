@@ -24,10 +24,10 @@ function LoginPage() {
       <div>
         <div className="inputLine">
           <InputTemplate id="Login" name="Login" placeholder="Insira Seu Email" type="email" 
-          value={loginEmail} onChange={(e) => setloginEmail(e.target.value)}  class="input"/>
+          value={loginEmail} onChange={(e) => setloginEmail(e.target.value)}  class="input" minLength={5} maxLength={100}/>
           
           <InputTemplate id="Senha" name="Senha" placeholder="Insira Sua Senha" type="password" 
-            value={loginPassword} onChange={(e) => setloginPassword(e.target.value)} class="input"/>
+            value={loginPassword} onChange={(e) => setloginPassword(e.target.value)} class="input"  minLength={5} maxLength={100}/>
         </div>
         <ButtonTemplate name="Login" formsSubmit={true}/>
       </div>

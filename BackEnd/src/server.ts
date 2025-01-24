@@ -6,7 +6,7 @@ import LoginConfirmation from "./Dynamodb/LoginConfirmation"
 import getPloomesId from "./PloomesDeals/ploomesId";
 import * as dotenv from "dotenv";
 import e from "cors";
-import {createLead} from './PloomesDeals/createLead'
+import {createLeads} from './PloomesDeals/createLead'
 
 dotenv.config();
 
@@ -35,7 +35,7 @@ app.post("/leadsPicker", async (req, res) => {
       
     if (response.statusCode === 200) {
       res.status(200).json({ message: "Leads encontrados", leads: response.data });
-      await createLead(response.data);
+      await createLeads(response.data);
       return;
     }if (response.statusCode === 404) {
       return res.status(404).json({ message: "Nenhum lead encontrado" });

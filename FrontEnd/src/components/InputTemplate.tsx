@@ -9,6 +9,11 @@ interface InputProps{
     value?: string;  
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
     class: string;
+    minLength?: number;
+    maxLength?: number;
+    min?: number;
+    max?: number
+
 }
 
 const InputTemplate = (props: InputProps) => {
@@ -22,6 +27,10 @@ const InputTemplate = (props: InputProps) => {
           className={props.class}
           type={props.type}
           id={props.id}
+          minLength={props.minLength}
+          maxLength={props.maxLength}
+          min={props.min}
+          max={props.max}
           required
         />
       </div>

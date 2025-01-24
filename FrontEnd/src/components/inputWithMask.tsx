@@ -15,7 +15,7 @@ function MaskInput(props: InputProps){
         return (
         <div>
         <p className="p">{props.name}</p>
-        <InputMask onChange={props.onChange} id={props.id} value={props.value} className="input" mask={props.mask} replacement={{ _: /\d/ }} placeholder={props.placeholder}/>
+        <InputMask required onChange={props.onChange} id={props.id} value={props.value} className="input" mask={props.mask} replacement={{ _: /\d/ }} placeholder={props.placeholder}/>
         </div>
     )
 }

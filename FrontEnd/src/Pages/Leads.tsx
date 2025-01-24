@@ -10,17 +10,6 @@ const Leads = () => {
   const [leadsNumber, setLeadsNumber] = useState(""); 
   const [country, setCountry] = useState(""); 
 
-  const createLeadHandleSubmit = async () => {
-    const leadsData = {
-      country,
-      limit: parseInt(leadsNumber, 10),
-    };
-      const response = await axios.post("http://localhost:3000/leadsPicker", leadsData);
-
-      response.status === 200 ? console.log("Leads gerados com sucesso:", response.data) 
-      : console.log(`Leads não foram Gerados, Error ${response.status}`)
-  };
-
   return (
     <div style={{ display: "flex", width: "90vw", height: "90vh" }}>
       <SidebarExample />
@@ -37,6 +26,8 @@ const Leads = () => {
                 value={leadsNumber} 
                 onChange={(e) => setLeadsNumber(e.target.value)} 
                 class="leadInput"
+                min={1}
+                max={10}
               />
             </div>
             <div className="form-item">
@@ -47,12 +38,25 @@ const Leads = () => {
             </div>
           </div>
           <div className="form-button">
-            <ButtonTemplate name="Gerar" onclick={createLeadHandleSubmit} />
+            <ButtonTemplate name="Gerar" onclick={() => createLeadHandleSubmit(leadsNumber, country)} />
           </div>
         </div>
       </div>
     </div>
   );
 };
+
+
+const createLeadHandleSubmit = async (leadsNumber: string, country: string ) => {
+  const leadsData = {
+    country,
+    limit: parseInt(leadsNumber, 10),
+  };
+    const response = await axios.post("http://localhost:3000/leadsPicker", leadsData);
+
+    response.status === 200 ? console.log("Leads gerados com sucesso:", response.data) 
+    : console.log(`Leads não foram Gerados, Error ${response.status}`)
+};
+
 
 export default Leads;
