@@ -15,20 +15,10 @@ const Leads = () => {
       country,
       limit: parseInt(leadsNumber, 10),
     };
-
-    console.log(leadsData)
-    /*
-      Evite usar try-catch, veja: https://medium.com/@ladumorrahul/reimagining-error-handling-beyond-try-catch-with-async-await-38a21840ffb4
-    */
-    try {
       const response = await axios.post("http://localhost:3000/leadsPicker", leadsData);
 
-      if (response.status === 200) {
-        console.log("Leads gerados com sucesso:", response.data);
-      }
-    } catch (error) {
-      console.error("Erro ao gerar leads:", error);
-    }
+      response.status === 200 ? console.log("Leads gerados com sucesso:", response.data) 
+      : console.log(`Leads não foram Gerados, Error ${response.status}`)
   };
 
   return (

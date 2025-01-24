@@ -1,27 +1,12 @@
-interface Phone {
-
-    PhoneNumber: string
-}
-
-
-export interface Contact {
-
-    Name: string,
-    StreetAddress: string,
-    TypeId: number,
-    Phones: Array<Phone>
-}
-
-
-export const contactPayload = (Name: string, Address: string, TypeId: number, Phone: string) => {
+export const contactPayload = (Data: {Name: string, Address: string, TypeId: number, Phone: string}) => {
 
     return {
-        "Name": Name,
-        "StreetAddress": Address,
-        "TypeId": TypeId,
+        "Name": Data.Name,
+        "StreetAddress": Data.Address,
+        "TypeId": Data.TypeId,
         "Phones": [
             {
-                "PhoneNumber": Phone
+                "PhoneNumber": Data.Phone
             }
         ]
     }

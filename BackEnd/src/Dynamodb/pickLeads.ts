@@ -14,8 +14,6 @@ const pickLeads = async (country: string, limit: number) => {
     };
     try{
         const result = await client.send(new ScanCommand(params));
-        const contactData =  await createContact()
-        console.log(contactData)
         return {statusCode: 200, data: result.Items}
     } 
      catch (error) {
@@ -27,7 +25,20 @@ const pickLeads = async (country: string, limit: number) => {
       error: error.message, 
     };
   }
-
 };
+
+
+const createLead = async () => {
+  //por enquanto para não dar erro passarei assim 
+  const contactDb = {
+    Name: "string",
+    Address: "string",
+    TypeId: 2,
+    Phone: "string"
+};
+
+  const contactData =  await createContact(contactDb)
+  console.log(contactData)
+}
 
 export default pickLeads;

@@ -4,11 +4,13 @@ import "./Login.css";
 import ButtonTemplate from "../components/ButtonTemplate";
 import InputTemplate from "../components/InputTemplate";
 import Warning from '../components/warningTemplate';
-import Reac, {useState} from "react";
+import React, {useState} from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 function LoginPage() {
-
+  const navigate = useNavigate();
   const [loginEmail, setloginEmail] = useState("");
   const [loginPassword, setloginPassword] = useState("");
 
@@ -19,25 +21,9 @@ function LoginPage() {
 
   const loginConfirm = async () =>{
     console.log(loginEmail)
-
-    try {
-      
       const response = await axios.post("http://localhost:3000/login", loginData);
-
-      if (response.status === 200) {
-        /*
-        
-          Não deveria ter um navigate?
-       
-          E mesmo criando uma conta, estou recebendo 400 (bad request)
-
-        */
-
-        console.log("Conta Existe:", response.data);
-      }
-    } catch (error) {
-      console.error("Erro ao acessar a conta", error);
-    }}
+      return response.status === 200 ?  navigate("/Leads") :  console.log(`Erro na Verificação da conta ${response.statusText}`)
+    }
 
   return (
     <>
