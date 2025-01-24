@@ -17,18 +17,18 @@ function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
   
-  const inputValuesConfirm = ()=>{
+  const inputValuesConfirm = () =>{
     return name && email && phone && password && confirmPassword ? true : false
     }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (): Promise<void> => {
     if(password !== confirmPassword){
       alert("As senhas não Correspondem")
       return;
     }
 
-    const responsePloomesId  = await axios.post("http://localhost:3000/ploomesId", { email });    
-    const ploomesId = responsePloomesId.data.ploomesId;
+    const responsePloomesId  = await axios.post("http://localhost:3000/ploomesId", { email });      
+    const ploomesId = responsePloomesId ? responsePloomesId.data.ploomesId : null
 
     const formData = {
       name,

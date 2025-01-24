@@ -1,18 +1,16 @@
 import { handleStatus } from "../Utils/handleStatus";
+import { authHeaders } from "../Utils/ploomesCredentials";
 import * as dotenv from "dotenv";
 import { contactPayload } from "./contactPayload";
 
 dotenv.config()
 
-const authHeaders = {'Authorization' : `Bearer `, 'User-Key' :""}
-
-const createContact = async (contactDb) => {
-    const url = `https://api2.ploomes.com/Contacts`;
-    
+const createContact = async (contactDb, ownerId) => {
+    const url = `${process.env.BASEURL}/Contacts`;
     const response = await fetch(url, {
       method: "POST",
       headers: authHeaders,
-      body: JSON.stringify(contactPayload(contactDb))
+      body: JSON.stringify(contactPayload(contactDb, ownerId))
        
     });
     const responseText = await response.text();
@@ -23,6 +21,6 @@ const createContact = async (contactDb) => {
     if(requestSucess){
       const data = JSON.parse(responseText);
       return data
-};
-}
+}}
+
 export default createContact;

@@ -6,6 +6,7 @@ import LoginConfirmation from "./Dynamodb/LoginConfirmation"
 import getPloomesId from "./PloomesDeals/ploomesId";
 import * as dotenv from "dotenv";
 import e from "cors";
+import {createLead} from './PloomesDeals/createLead'
 
 dotenv.config();
 
@@ -34,13 +35,14 @@ app.post("/leadsPicker", async (req, res) => {
       
     if (response.statusCode === 200) {
       res.status(200).json({ message: "Leads encontrados", leads: response.data });
-    } else if (response.statusCode === 404) {
-      res.status(404).json({ message: "Nenhum lead encontrado" });
-    } else if (response.statusCode === 500) {
-      res.status(500).json({ message: "Erro ao buscar leads", error: response.error });
-    } else {
-      res.status(500).json({ message: "Erro inesperado" });
-    }
+      await createLead(response.data);
+      return;
+    }if (response.statusCode === 404) {
+      return res.status(404).json({ message: "Nenhum lead encontrado" });
+    } if(response.statusCode === 500) {
+      return res.status(500).json({ message: "Erro ao buscar leads", error: response.error });
+    } 
+      return res.status(500).json({ message: "Erro inesperado" });
   }
 );
   
@@ -66,9 +68,9 @@ app.post("/ploomesId", async(req, res)=>{
     res.status(200).json({
       message: "Id Encontrado",
       ploomesId, 
-    });
+});
   } else { 
-    res.status(404).json({ message: "Id Não Encontrado" });
+    res.status(404).json({ message: "Id Não Encontrado", ploomesId: null});
   }
 })
 
