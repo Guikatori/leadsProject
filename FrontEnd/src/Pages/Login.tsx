@@ -3,10 +3,10 @@ import sunhub from "../assets/sunhubbr_logo.jpg";
 import "./Login.css";
 import ButtonTemplate from "../components/ButtonTemplate";
 import InputTemplate from "../components/InputTemplate";
-import Warning from '../components/warningTemplate';
 import React, {useState} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify'
 
 
 function LoginPage() {
@@ -49,10 +49,14 @@ const loginConfirm = async (
     loginEmail, 
     loginPassword
   }
-
-  console.log(loginEmail)
-    const response = await axios.post("http://localhost:3000/login", loginData);
-    return response.status === 200 ?  navigate("/Leads") :  console.log(`Erro na Verificação da conta ${response.statusText}`)
+    
+  const response = await axios.post("http://localhost:3000/login", loginData);
+  if(response.status === 200){
+    toast.success("Logando", {position: "top-right",theme: "colored"}) 
+    return navigate("/Leads")
+  }
+  console.log(`Erro na Verificação da conta ${response.statusText}`);
+  return toast.error("A conta não existe", {position: "top-right",theme: "colored"})
   }
 
 export default LoginPage;

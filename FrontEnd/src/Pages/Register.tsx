@@ -8,6 +8,10 @@ import axios from "axios";
 import { handleStatus } from '../utils/handleStatusCode.tsx';
 import { Route } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify'
+import {Icon} from 'react-icons-kit';
+import {eyeOff} from 'react-icons-kit/feather/eyeOff';
+import {eye} from 'react-icons-kit/feather/eye'
 
 function RegisterPage() {
   const [name, setName] = useState('');
@@ -80,6 +84,7 @@ function RegisterPage() {
             </div>
           </form>
         </div>
+        <ToastContainer stacked />
         <div className='imageContainer'>
           <img className='Mapimg' src={map} alt='map' />
         </div>
@@ -100,14 +105,13 @@ const handleSubmit = async (
   e.preventDefault();
 
   if (password !== confirmPassword) {
-    alert('As senhas não Correspondem');
-    return;
+    return toast.error("As senhas não são iguais", {position: "top-right",theme: "colored"})
   }
 
   const hasEmail = await axios.post('http://localhost:3000/emailConfirmation', { email }, {validateStatus: (status) => status < 500});
-  
+
   if(hasEmail.status === 401){
-    return alert("Email já está sendo utilizado")
+    return toast.error("Email já foi utilizado", {position: "top-right", theme: "colored"})
   }
 
   const responsePloomesId = await axios.post('http://localhost:3000/ploomesId', { email }, {validateStatus: (status) => status < 500});
@@ -123,10 +127,13 @@ const handleSubmit = async (
 
   const response = await axios.post('http://localhost:3000/add-user', formData);
   const requestSuccess = handleStatus(response.status, JSON.stringify(response.data));
-  return requestSuccess
-    ? navigate('/Leads')
-    : console.log(`Erro na Verificação da conta: ${response.statusText}`);
-};
 
+  if(requestSuccess){
+    navigate('/Leads');
+    return toast.success('Registro feito com sucesso!', {theme: "colored", position: "top-right"})
+}
+    console.log(`Erro na Verificação da conta: ${response.statusText}`);
+    return toast.error("Erro na Verificação da conta", {position: "top-right",theme: "colored"})
+};
 
 export default RegisterPage;
