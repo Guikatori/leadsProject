@@ -6,12 +6,9 @@ import MaskInput from '../components/inputWithMask';
 import map from '../assets/4710388-mapa-do-brasil-sobre-fundo-branco-gratis-vetor.jpg'
 import axios from "axios";
 import { handleStatus } from '../utils/handleStatusCode.tsx';
-import { Route } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify'
-import {Icon} from 'react-icons-kit';
-import {eyeOff} from 'react-icons-kit/feather/eyeOff';
-import {eye} from 'react-icons-kit/feather/eye'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function RegisterPage() {
   const [name, setName] = useState('');
@@ -20,7 +17,6 @@ function RegisterPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [type, setType] = useState('password');
-  const [icon, setIcon] = useState('eyeoff')
   const navigate = useNavigate();
 
 
@@ -71,7 +67,6 @@ function RegisterPage() {
                   minLength={5}
                   maxLength={50}
                   />
-                  <span onClick={() => eyeHandle(type,setIcon, setType)} style={{position: 'fixed', marginLeft:'340px', marginTop: '22px'}}><Icon icon={icon} size={25}/></span>
                  </div>
                 <div style={{display: "flex"}}>
                 <InputTemplate
@@ -84,7 +79,7 @@ function RegisterPage() {
                   minLength={5}
                   maxLength={50}
                 />
-                <span onClick={() => eyeHandle(type,setIcon, setType)} style={{position: 'fixed', marginLeft:'340px', marginTop: '22px'}}><Icon icon={icon} size={25}/></span>
+                <button onClick={() => eyeHandle(type, setType)} type='button' className='iconButton'><i className={'eyeOff'}/></button>
                 </div>
               </div>
               <ButtonTemplate name="Registre-Se" formsSubmit={true} />
@@ -99,19 +94,14 @@ function RegisterPage() {
     </>
   );
 }
-
-type iconType = React.Dispatch<React.SetStateAction<string>>
-const eyeHandle = (type: string, setIcon: iconType, setType: iconType):void =>{
+const eyeHandle = (type: string, setType: React.Dispatch<React.SetStateAction<string>>):void =>{
   if(type === 'password'){
-    setIcon(eye);
     setType('text')
     return;
   }
-  setIcon(eyeOff)
   setType('password')
   return;
 }
-
 
 const handleSubmit = async (
   e: React.FormEvent,

@@ -48,3 +48,16 @@
     height: 100%;
   }
 
+
+  .iconButton{
+    position: fixed; 
+    margin-Left:320px;
+    margin-Top: 22px; 
+    width: 20px;
+    height: 32px;
+    border-radius: 100%;
+    background-color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }

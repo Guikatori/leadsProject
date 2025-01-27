@@ -13,6 +13,7 @@ function LoginPage() {
   const navigate = useNavigate();
   const [loginEmail, setloginEmail] = useState("");
   const [loginPassword, setloginPassword] = useState("");
+  const [loginPasswordtype, setloginPasswordtype] = useState('password');
 
   return (
     <>
@@ -25,12 +26,14 @@ function LoginPage() {
         <div className="inputLine">
           <InputTemplate id="Login" name="Login" placeholder="Insira Seu Email" type="email" 
           value={loginEmail} onChange={(e) => setloginEmail(e.target.value)}  class="input" minLength={5} maxLength={100}/>
-          
-          <InputTemplate id="Senha" name="Senha" placeholder="Insira Sua Senha" type="password" 
+          <div>
+          <InputTemplate id="Senha" name="Senha" placeholder="Insira Sua Senha" type={loginPasswordtype} 
             value={loginPassword} onChange={(e) => setloginPassword(e.target.value)} class="input"  minLength={5} maxLength={100}/>
+            </div>
         </div>
         <ButtonTemplate name="Login" formsSubmit={true}/>
       </div>
+      <ToastContainer stacked />
       <p className="greyText">
         Não possui uma conta? <Link to="/register" className="register">Registre-se</Link>
       </p>

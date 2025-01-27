@@ -3,7 +3,7 @@ import client from "./awsClient"
 
 const getEmailConfirm = async (Email: string): Promise<boolean | null> => {
     const params = {
-        TableName: "LeadsUser",
+        TableName: "UserLeads",
         FilterExpression: "email = :email",
         ExpressionAttributeValues: {
             ":email": { S: Email },

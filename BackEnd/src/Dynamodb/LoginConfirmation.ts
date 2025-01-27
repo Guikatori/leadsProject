@@ -9,7 +9,7 @@ const LoginConfirmation = async (Email: string, Password: string): Promise<boole
         return null
     }
     const params = {
-        TableName: "LeadsUser",
+        TableName: "UserLeads",
         FilterExpression: "email = :email AND password = :password",
         ExpressionAttributeValues: {
             ":email": { S: Email },

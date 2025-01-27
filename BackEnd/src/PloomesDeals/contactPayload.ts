@@ -1,7 +1,7 @@
 interface ContactDb{
 
     Name: {S: string};
-    Adress: {S: string};
+    Address: {S: string};
     LeadId: {N: number};
     Phone: {S: string}
 
@@ -25,7 +25,7 @@ interface ContactPayload{
 export const contactPayload = (contactDb: ContactDb, ownerId: number): ContactPayload => {
     return {
         "Name": contactDb.Name.S,
-        "StreetAddress": contactDb.Adress.S,
+        "StreetAddress": contactDb.Address.S,
         "TypeId": contactDb.LeadId.N,
         "OwnerId": ownerId,
         "Phones": [

@@ -1,7 +1,7 @@
 interface DealDb{
 
     Name: {S: string};
-    Adress: {S: string};
+    Address: {S: string};
     LeadId: {N: number};
     Phone: {S: string};
 }
