@@ -7,7 +7,7 @@ import SelectTemplate from "../components/selectTemplate";
 import axios from "axios";
 
 const Leads = () => {
-  const [leadsNumber, setLeadsNumber] = useState(""); 
+  const [leadsNumber, setLeadsNumber] = useState(0); 
   const [country, setCountry] = useState(""); 
 
   return (
@@ -23,8 +23,8 @@ const Leads = () => {
                 id="leadsNumber"
                 placeholder="Quantidade de Leads"
                 type="number"
-                value={leadsNumber} 
-                onChange={(e) => setLeadsNumber(e.target.value)} 
+                value={leadsNumber > 10 ? "10" : leadsNumber.toString()} 
+                onChange={(e) => setLeadsNumber(parseInt(e.target.value, 10))} 
                 class="leadInput"
                 min={1}
                 max={10}
@@ -47,16 +47,14 @@ const Leads = () => {
 };
 
 
-const createLeadHandleSubmit = async (leadsNumber: string, country: string ) => {
+const createLeadHandleSubmit = async (leadsNumber: number, country: string ) => {
   const leadsData = {
     country,
-    limit: parseInt(leadsNumber, 10),
+    limit: leadsNumber,
   };
     const response = await axios.post("http://localhost:3000/leadsPicker", leadsData);
-
-    response.status === 200 ? console.log("Leads gerados com sucesso:", response.data) 
+    return response.status === 200 ? console.log("Leads gerados com sucesso:", response.data) 
     : console.log(`Leads não foram Gerados, Error ${response.status}`)
 };
-
 
 export default Leads;

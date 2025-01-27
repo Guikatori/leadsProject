@@ -15,15 +15,16 @@ export const createLead = async (Items) => {
    }
 */
 
-export const createLeads = async (Items)=>{
+export const createLeads = async (Items) => {
     const ownerId = 40079953
-    console.log("started creating Contacts")
-
-    const promises = Items.map(async item =>{
-        const contactData = await createContact(item, ownerId) 
-        return contactData && contactData.value ? contactData.value[0].Id : null
+    const promises = Items.map(item => {
+        const contactData = createContact(item, ownerId)
+        return contactData ? contactData : null
     });
-
     const contacts = await Promise.all(promises)
     console.log(contacts)
 }
+
+
+
+

@@ -14,7 +14,7 @@ const createContact = async (contactDb, ownerId) => {
        
     });
     const data = await response.json();
-    return response.ok ? data : handleStatus(response.status, await response.text())
+    return response.ok ? data.value[0].Id : handleStatus(response.status, await response.text())
   }
 
 export default createContact;
