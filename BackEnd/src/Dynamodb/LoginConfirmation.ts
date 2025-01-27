@@ -8,9 +8,6 @@ const LoginConfirmation = async (Email: string, Password: string): Promise<boole
     if (!hashedPassword) {
         return null
     }
-
-    console.log(hashedPassword);
-
     const params = {
         TableName: "LeadsUser",
         FilterExpression: "email = :email AND password = :password",

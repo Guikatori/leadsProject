@@ -13,14 +13,8 @@ const createDeal = async (contactDb, ownerId, contactId) => {
       body: JSON.stringify(dealPayload(contactDb, ownerId, contactId))
        
     });
-    const responseText = await response.text();
-
-
-    const requestSucess = handleStatus(response.status, responseText)
-
-    if(requestSucess){
-      const data = JSON.parse(responseText);
-      return data
-}}
+    const data = await response.json();
+    return response.ok ? data : handleStatus(response.status, await response.text())
+    }
 
 export default createDeal;

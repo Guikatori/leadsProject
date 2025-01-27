@@ -13,14 +13,8 @@ const createContact = async (contactDb, ownerId) => {
       body: JSON.stringify(contactPayload(contactDb, ownerId))
        
     });
-    const responseText = await response.text();
-
-
-    const requestSucess = handleStatus(response.status, responseText)
-
-    if(requestSucess){
-      const data = JSON.parse(responseText);
-      return data
-}}
+    const data = await response.json();
+    return response.ok ? data : handleStatus(response.status, await response.text())
+  }
 
 export default createContact;

@@ -22,10 +22,11 @@ const addUserItem = async (formData: { name: string; email: string; phone: strin
     try {
         const result = await client.send(new PutItemCommand(params));
         console.log("item inserido", result)
+        return {statusCode: 200, data: result}
     } catch (error) {
-        console.error("Error ao inserir o novo item", error)
+        return {statusCode: error.$metadata?.httpStatusCode || 500, data: [], error: error.message}}
     }
-}
+
 export default addUserItem;
 
 
