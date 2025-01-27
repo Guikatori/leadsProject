@@ -19,6 +19,8 @@ function RegisterPage() {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [type, setType] = useState('password');
+  const [icon, setIcon] = useState('eyeoff')
   const navigate = useNavigate();
 
 
@@ -58,27 +60,32 @@ function RegisterPage() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
-
+                 <div style={{display: 'flex'}}>
                 <InputTemplate
                   id="password"
                   placeholder="Insira Uma Senha"
-                  type="password"
+                  type={type}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   class="input"
                   minLength={5}
                   maxLength={50}
-                />
+                  />
+                  <span onClick={() => eyeHandle(type,setIcon, setType)} style={{position: 'fixed', marginLeft:'340px', marginTop: '22px'}}><Icon icon={icon} size={25}/></span>
+                 </div>
+                <div style={{display: "flex"}}>
                 <InputTemplate
                   id="passwordConfirm"
                   placeholder="Confirme a Senha"
-                  type="password"
+                  type={type}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   class="input"
                   minLength={5}
                   maxLength={50}
                 />
+                <span onClick={() => eyeHandle(type,setIcon, setType)} style={{position: 'fixed', marginLeft:'340px', marginTop: '22px'}}><Icon icon={icon} size={25}/></span>
+                </div>
               </div>
               <ButtonTemplate name="Registre-Se" formsSubmit={true} />
             </div>
@@ -92,6 +99,19 @@ function RegisterPage() {
     </>
   );
 }
+
+type iconType = React.Dispatch<React.SetStateAction<string>>
+const eyeHandle = (type: string, setIcon: iconType, setType: iconType):void =>{
+  if(type === 'password'){
+    setIcon(eye);
+    setType('text')
+    return;
+  }
+  setIcon(eyeOff)
+  setType('password')
+  return;
+}
+
 
 const handleSubmit = async (
   e: React.FormEvent,
