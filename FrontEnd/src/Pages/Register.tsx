@@ -8,7 +8,8 @@ import axios from "axios";
 import { handleStatus } from '../utils/handleStatusCode.tsx';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { IconButton } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 function RegisterPage() {
   const [name, setName] = useState('');
@@ -16,7 +17,7 @@ function RegisterPage() {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [type, setType] = useState('password');
+  const [isVisible, setisVisible] = useState(false);
   const navigate = useNavigate();
 
 
@@ -60,26 +61,27 @@ function RegisterPage() {
                 <InputTemplate
                   id="password"
                   placeholder="Insira Uma Senha"
-                  type={type}
+                  type={!isVisible ? "password" : "text"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   class="input"
                   minLength={5}
                   maxLength={50}
                   />
+                  <IconButton  onClick={()=> setisVisible(!isVisible)} type="button" style={{ position: "absolute", marginTop: '18px', marginLeft: "320px"}}>{!isVisible ? <VisibilityOff /> : <Visibility />}</IconButton>
                  </div>
                 <div style={{display: "flex"}}>
                 <InputTemplate
                   id="passwordConfirm"
                   placeholder="Confirme a Senha"
-                  type={type}
+                  type={!isVisible ? "password" : "text"}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   class="input"
                   minLength={5}
                   maxLength={50}
                 />
-                <button onClick={() => eyeHandle(type, setType)} type='button' className='iconButton'><i className={'eyeOff'}/></button>
+                  <IconButton  onClick={()=> setisVisible(!isVisible)} type="button" style={{ position: "absolute", marginTop: '18px', marginLeft: "320px"}}>{!isVisible ? <VisibilityOff /> : <Visibility />}</IconButton>
                 </div>
               </div>
               <ButtonTemplate name="Registre-Se" formsSubmit={true} />

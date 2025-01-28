@@ -31,7 +31,7 @@ function LoginPage() {
           <div style={{display: 'flex'}}>
           <InputTemplate id="Senha" name="Senha" placeholder="Insira Sua Senha" type={!isVisible ? 'password' : 'text'} 
             value={loginPassword} onChange={(e) => setloginPassword(e.target.value)} class="input"  minLength={5} maxLength={100}/>
-          <IconButton  onClick={()=> setisVisible(!isVisible)} type="button" style={{ position: "absolute", right: '90px', marginTop: '40px'}}>{!isVisible ? <VisibilityOff /> : <Visibility />}</IconButton>
+          <IconButton  onClick={()=> setisVisible(!isVisible)} type="button" style={{ position: "absolute", marginTop: '40px', marginLeft: "320px"}}>{!isVisible ? <VisibilityOff /> : <Visibility />}</IconButton>
           </div>
         </div>
         <ButtonTemplate name="Login" formsSubmit={true}/>
@@ -58,6 +58,7 @@ const loginConfirm = async (
     
   const response = await axios.post("http://localhost:3000/login", loginData);
   if(response.status === 200){
+    localItens(response, loginEmail)
     toast.success("Logando", {position: "top-right",theme: "colored"}) 
     return navigate("/Leads")
   }
@@ -65,4 +66,12 @@ const loginConfirm = async (
   return toast.error("A conta não existe", {position: "top-right",theme: "colored"})
   }
 
+  const localItens = (response: any, email: string): void=>{
+    const data = response.data.data[0];
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('refreshToken', data.refreshToken)
+    localStorage.setItem('Login', email)
+    return;
+  }
 export default LoginPage;
+
