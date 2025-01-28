@@ -1,5 +1,6 @@
 import React from "react";
 import "./InputTemplate.css"
+import { Icon } from "@mui/material";
 
 interface InputProps{
     id: string;
@@ -12,8 +13,7 @@ interface InputProps{
     minLength?: number;
     maxLength?: number;
     min?: number;
-    max?: number
-
+    max?: number;
 }
 
 const InputTemplate = (props: InputProps) => {
@@ -36,5 +36,4 @@ const InputTemplate = (props: InputProps) => {
       </div>
     );
   };
-
 export default InputTemplate;

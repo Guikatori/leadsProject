@@ -11,7 +11,7 @@ const addUserItem = async (formData: { name: string; email: string; phone: strin
     const params = {
         TableName: "UserLeads",
         Item: {
-            UserId: { N: userId},
+            UserId: { N: userId.toString()},
             UserType: {S: 'User'},
             createdAt: {S: new Date().toString()},
             ploomesId: { S: formData.ploomesId },

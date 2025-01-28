@@ -7,13 +7,15 @@ import React, {useState} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify'
+import { IconButton } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 
 function LoginPage() {
   const navigate = useNavigate();
   const [loginEmail, setloginEmail] = useState("");
   const [loginPassword, setloginPassword] = useState("");
-  const [loginPasswordtype, setloginPasswordtype] = useState('password');
+  const [isVisible, setisVisible] = useState(false);
 
   return (
     <>
@@ -26,10 +28,11 @@ function LoginPage() {
         <div className="inputLine">
           <InputTemplate id="Login" name="Login" placeholder="Insira Seu Email" type="email" 
           value={loginEmail} onChange={(e) => setloginEmail(e.target.value)}  class="input" minLength={5} maxLength={100}/>
-          <div>
-          <InputTemplate id="Senha" name="Senha" placeholder="Insira Sua Senha" type={loginPasswordtype} 
+          <div style={{display: 'flex'}}>
+          <InputTemplate id="Senha" name="Senha" placeholder="Insira Sua Senha" type={!isVisible ? 'password' : 'text'} 
             value={loginPassword} onChange={(e) => setloginPassword(e.target.value)} class="input"  minLength={5} maxLength={100}/>
-            </div>
+          <IconButton  onClick={()=> setisVisible(!isVisible)} type="button" style={{ position: "absolute", right: '90px', marginTop: '40px'}}>{!isVisible ? <VisibilityOff /> : <Visibility />}</IconButton>
+          </div>
         </div>
         <ButtonTemplate name="Login" formsSubmit={true}/>
       </div>
