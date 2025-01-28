@@ -52,11 +52,10 @@ app.post("/login", async (req, res) => {
   if (!loginEmail || !loginPassword) {
     return res.status(400).json({ message: "email e senha são obrigatórios." });
   }
-  const accessToken = generatorToken(loginEmail, "user");
-  const refreshToken = generateRefreshToken(loginEmail); 
-  console.log(refreshToken)
   const result = await LoginConfirmation(loginEmail, loginPassword);
   if (result) {
+    const accessToken = generatorToken(loginEmail, "user");
+    const refreshToken = generateRefreshToken(loginEmail); 
     return res.status(200).json({ message: "Login Encontrado", data: [{token:accessToken, refreshToken: refreshToken} ]})
   }
   return res.status(401).json({ message: "Erro ao Achar Conta" });

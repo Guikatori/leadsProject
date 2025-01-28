@@ -137,7 +137,7 @@ const handleSubmit = async (
     ploomesId,
   };
 
-  const response = await axios.post('http://localhost:3000/add-user', formData);
+  const response = await axios.post('http://localhost:3000/add-user', formData,  {validateStatus: (status) => status < 500});
   const requestSuccess = handleStatus(response.status, JSON.stringify(response.data));
 
   if(requestSuccess){
