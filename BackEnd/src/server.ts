@@ -25,7 +25,7 @@ app.post("/add-user", async (req, res) => {
   if (response.statusCode === 200) {
     const accessToken = generatorToken(email, "user"),
          refreshToken = generateRefreshToken(email);
-    res.status(200).json({ message: "usuario registrado", body: {user: response, acessToken: accessToken, refreshToken: refreshToken}})
+    return res.status(200).json({ message: "usuario registrado", body: {user: response, acessToken: accessToken, refreshToken: refreshToken}})
   }
   return res.status(response.statusCode).json({ message: response.error });
 })
