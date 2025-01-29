@@ -3,7 +3,7 @@ import client from "./awsClient"
 import makeHash from "../Utils/makeHash";
 
 
-const LoginConfirmation = async (Email: string, Password: string): Promise<boolean | null> => {
+const LoginConfirmation = async (Email: string, Password: string) => {
     const hashedPassword = makeHash(Email, Password)
     if (!hashedPassword) {
         return null
@@ -18,7 +18,7 @@ const LoginConfirmation = async (Email: string, Password: string): Promise<boole
     };
 
     const result = await client.send(new ScanCommand(params));
-    return result.Count > 0;
+    return result.Count > 0 ? result : null
 };
 
 export default LoginConfirmation;

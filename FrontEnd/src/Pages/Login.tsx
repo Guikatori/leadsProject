@@ -67,9 +67,10 @@ const loginConfirm = async (
   }
 
   const localItens = (response: any, email: string): void=>{
-    const data = response.data.data[0];
+    const data = response.data.body;
     localStorage.setItem('token', data.token);
     localStorage.setItem('refreshToken', data.refreshToken)
+    localStorage.setItem('ploomesId', data.ploomesId)
     localStorage.setItem('Login', email)
     return;
   }

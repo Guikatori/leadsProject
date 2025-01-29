@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SidebarExample from "../components/sidebar";
 import "./Leads.css";
 import InputTemplate from "../components/InputTemplate";
 import ButtonTemplate from "../components/ButtonTemplate";
 import SelectTemplate from "../components/selectTemplate";
 import axios from "axios";
+import ProtectedPage from "../auth/auth";
 
 const Leads = () => {
-  const [leadsNumber, setLeadsNumber] = useState(0);
-  const [country, setCountry] = useState("");
 
+  const [leadsNumber, setLeadsNumber] = useState(0);
+  const [country, setCountry] = useState(""); 
   return (
+    <ProtectedPage>
     <div style={{ display: "flex", width: "90vw", height: "90vh" }}>
       <SidebarExample />
-
       <div className="forms-container">
         <h1 className="title">Gerar Leads</h1>
         <div className="form-content">
@@ -43,6 +44,7 @@ const Leads = () => {
         </div>
       </div>
     </div>
+    </ProtectedPage>
   )};
 
 const createLeadHandleSubmit = async (leadsNumber: number, country: string) => {

@@ -96,14 +96,6 @@ function RegisterPage() {
     </>
   );
 }
-const eyeHandle = (type: string, setType: React.Dispatch<React.SetStateAction<string>>):void =>{
-  if(type === 'password'){
-    setType('text')
-    return;
-  }
-  setType('password')
-  return;
-}
 
 const handleSubmit = async (
   e: React.FormEvent,
