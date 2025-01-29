@@ -23,13 +23,14 @@ app.post("/add-user", async (req, res) => {
   }
   const response = await addUserItem(req.body);
   if (response.statusCode === 200) {
-    return res.status(200).json({ message: "usuario registrado", data: response })
+    const accessToken = generatorToken(email, "user"),
+         refreshToken = generateRefreshToken(email);
+    res.status(200).json({ message: "usuario registrado", body: {user: response, acessToken: accessToken, refreshToken: refreshToken}})
   }
   return res.status(response.statusCode).json({ message: response.error });
 })
 
 app.post("/leadsPicker", async (req, res) => {
-
 
   const { country, limit } = req.body;
   if (!country || !limit) {
@@ -60,14 +61,12 @@ app.post("/login", async (req, res) => {
   return res.status(401).json({ message: "Erro ao Achar Conta" });
 });
 
-
-
 app.post("/ploomesId", async (req, res) => {
   const ploomesId = await getPloomesId(req.body.email);
   if (ploomesId) {
     return res.status(200).json({ message: "Id Encontrado", data: ploomesId, })
   }
-  return res.status(ploomesId.statusCode).json({ message: ploomesId.error, data: null });
+  return res.status(400).json({ message: "Ploomes Id não foi encontrado", data: null });
 })
 
 

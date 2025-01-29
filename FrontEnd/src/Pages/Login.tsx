@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify'
 import { IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-
+import { localItens } from "../utils/localItens";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -58,7 +58,8 @@ const loginConfirm = async (
     
   const response = await axios.post("http://localhost:3000/login", loginData,  {validateStatus: (status) => status < 500});
   if(response.status === 200){
-    localItens(response, loginEmail)
+    const data = response.data.body;
+    localItens(data.token, data.refreshToken, data.ploomesId, loginEmail)
     toast.success("Logando", {position: "top-right",theme: "colored"}) 
     return navigate("/Leads")
   }
@@ -66,13 +67,6 @@ const loginConfirm = async (
   return toast.error("A conta não existe", {position: "top-right",theme: "colored"})
   }
 
-  const localItens = (response: any, email: string): void=>{
-    const data = response.data.body;
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('refreshToken', data.refreshToken)
-    localStorage.setItem('ploomesId', data.ploomesId)
-    localStorage.setItem('Login', email)
-    return;
-  }
+
 export default LoginPage;
 

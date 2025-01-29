@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify'
 import { IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { localItens } from "../utils/localItens";
 
 function RegisterPage() {
   const [name, setName] = useState('');
@@ -130,10 +131,11 @@ const handleSubmit = async (
   };
 
   const response = await axios.post('http://localhost:3000/add-user', formData,  {validateStatus: (status) => status < 500});
-  const requestSuccess = handleStatus(response.status, JSON.stringify(response.data));
+  const requestSuccess = handleStatus(response.status, JSON.stringify(response.data.body));
 
   if(requestSuccess){
     navigate('/Leads');
+    localItens(response.data.body.acessToken, response.data.body.refreshToken, ploomesId, email)
     return toast.success('Registro feito com sucesso!', {theme: "colored", position: "top-right"})
 }
     console.log(`Erro na Verificação da conta: ${response.statusText}`);
