@@ -6,6 +6,7 @@ import {v4 as uuidv4} from 'uuid';
 const addUserItem = async (formData: { name: string; email: string; phone: string; password: string; ploomesId: string }) => {
 
     const passwordHash = makeHash(formData.email, formData.password)
+    const tokenHash = makeHash(formData.email,passwordHash )
     const params = {
         TableName: "UserLeads",
         Item: {
@@ -16,13 +17,14 @@ const addUserItem = async (formData: { name: string; email: string; phone: strin
             name: { S: formData.name },
             email: { S: formData.email },
             phone: { S: formData.phone },
-            password: { S: passwordHash }
+            password: { S: passwordHash },
+            userKey: {S: tokenHash},
+            leadsRemaining: {S: "10"}
         }
     }
     try {
         const result = await client.send(new PutItemCommand(params));
-        console.log("item inserido", result)
-        return {statusCode: 200, data: result}
+        return {statusCode: 200, data: {key: tokenHash, IdPloomes: formData.ploomesId}}
     } catch (error) {
         return {statusCode: error.$metadata?.httpStatusCode || 500, data: [], error: error.message}}
     }

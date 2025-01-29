@@ -115,7 +115,7 @@ const handleSubmit = async (
 
   const hasEmail = await axios.post('http://localhost:3000/emailConfirmation', { email }, {validateStatus: (status) => status < 500});
 
-  if(hasEmail.status === 401){
+  if(hasEmail.status === 409){
     return toast.error("Email já foi utilizado", {position: "top-right", theme: "colored"})
   }
 
@@ -134,7 +134,8 @@ const handleSubmit = async (
   const requestSuccess = handleStatus(response.status, JSON.stringify(response.data.body));
 
   if(requestSuccess){
-    localItens(response.data.body.acessToken, response.data.body.refreshToken, ploomesId, email)
+    const responsebody = response.data.body
+    localItens(responsebody.data.key, ploomesId, email)
     toast.success('Registro feito com sucesso!', {theme: "colored", position: "top-right"})
     return navigate('/Leads');
 }

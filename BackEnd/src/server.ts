@@ -7,8 +7,7 @@ import getPloomesId from "./PloomesDeals/ploomesId";
 import * as dotenv from "dotenv";
 import e from "cors";
 import { createLeads } from './PloomesDeals/createLead'
-import getEmailConfirm from './Dynamodb/getEmailConfirm'
-import { generatorToken, generateRefreshToken, verifyToken } from "./Auth/authToken";
+import { verifyToken, getUser } from "./Dynamodb/verifyAuth"
 
 dotenv.config();
 
@@ -23,9 +22,7 @@ app.post("/add-user", async (req, res) => {
   }
   const response = await addUserItem(req.body);
   if (response.statusCode === 200) {
-    const accessToken = generatorToken(email, "user"),
-         refreshToken = generateRefreshToken(email);
-    return res.status(200).json({ message: "usuario registrado", body: {user: response, acessToken: accessToken, refreshToken: refreshToken}})
+    return res.status(200).json({ message: "usuario registrado", body: response})
   }
   return res.status(response.statusCode).json({ message: response.error });
 })
@@ -53,10 +50,10 @@ app.post("/login", async (req, res) => {
   }
   const result = await LoginConfirmation(loginEmail, loginPassword);
   if (result !== null) {
-    const accessToken = generatorToken(loginEmail, "user"),
-      refreshToken = generateRefreshToken(loginEmail),
-      ploomesId = result.Items[0].ploomesId.S
-    return res.status(200).json({ message: "Login Encontrado", body: { token: accessToken, refreshToken: refreshToken, ploomesId: ploomesId } })
+    const ploomesId = result.Items[0].ploomesId.S,
+          token = result.Items[0].token.S,
+          leadsRemaining = result.Items[0].leadsRemaining.S
+    return res.status(200).json({ message: "Login Encontrado", body: {ploomesId: ploomesId, key: token, leadsRemaining: leadsRemaining } })
   }
   return res.status(401).json({ message: "Erro ao Achar Conta" });
 });
@@ -71,37 +68,20 @@ app.post("/ploomesId", async (req, res) => {
 
 
 app.post("/emailConfirmation", async (req, res) => {
-  const hasEmail = await getEmailConfirm(req.body.email);
+  const hasEmail = await getUser(req.body.email);
   return hasEmail ? res.status(409).json({ message: "Email já existe" }) : res.status(200).json({ message: "Email não está sendo utilizado" })
 })
 
-app.post("/refresh", async (req, res) => {
-  const { refreshToken, email } = req.body
-  if (!refreshToken) {
-    return res.status(401).json({ message: 'Refresh token está faltando' });
+app.post("/verifyToken", async (req, res)=>{
+  const authHeader = req.headers.authorization;
+  if(!authHeader){
+    return res.status(400).json({message: "Token não fornecido"})
   }
-  const refreshTokenIsValid = verifyToken(refreshToken, "refresh-secret-key")
-  if (refreshTokenIsValid) {
-    const newToken = generatorToken(email, "User");
-    return res.status(200).json({ message: "Novo Token", data: newToken})
-  }    
-  return res.status(500).json({ message: "Refresh token inválido"})
-
+  const token = authHeader.split(" ")[1];
+  const tokenIsValid = verifyToken(token)
+  return tokenIsValid ? res.status(200).json({ message: "Token Válido" }) : res.status(401).json({ message: "Token Inválido" })
 })
 
-app.post("/validateToken", async (req, res) => {
-  console.log("validateToken")
-  const token = req.body.token
-  if (!token) {
-    return res.status(400).json({ message: 'Token está faltando' })
-  }
-  const validToken = verifyToken(token, "access-secret-key")
-  console.log(validToken)
-  if (validToken) {
-    return res.status(200).json({ message: "Token Válido" })
-  }
-  return res.status(401).json({ message: "Token Inválido" })
-})
 
 app.listen(process.env.PORT, () => {
   console.log('servidor rodando')

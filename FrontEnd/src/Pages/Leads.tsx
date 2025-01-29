@@ -5,14 +5,22 @@ import InputTemplate from "../components/InputTemplate";
 import ButtonTemplate from "../components/ButtonTemplate";
 import SelectTemplate from "../components/selectTemplate";
 import axios from "axios";
-import ProtectedPage from "../auth/auth";
+import { useNavigate } from "react-router-dom";
 
 const Leads = () => {
-
+  const navigate = useNavigate();
   const [leadsNumber, setLeadsNumber] = useState(0);
-  const [country, setCountry] = useState(""); 
-  return (
-    <ProtectedPage>
+  const [country, setCountry] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const checkAuthentication = async () => {
+    const isValid = await validateToken(navigate);
+    return setIsAuthenticated(isValid);
+  };
+
+  checkAuthentication()
+
+  return isAuthenticated ? (
     <div style={{ display: "flex", width: "90vw", height: "90vh" }}>
       <SidebarExample />
       <div className="forms-container">
@@ -44,17 +52,34 @@ const Leads = () => {
         </div>
       </div>
     </div>
-    </ProtectedPage>
-  )};
+  )
+    : <h1>Teste</h1>
+};
 
 const createLeadHandleSubmit = async (leadsNumber: number, country: string) => {
+  const key = localStorage.getItem('Key')
   const leadsData = {
     country,
     limit: leadsNumber > 10 ? 10 : leadsNumber
   };
-  const response = await axios.post("http://localhost:3000/leadsPicker", leadsData);
+  const response = await axios.post("http://localhost:3000/leadsPicker", leadsData, { headers: { Authorization: `Bearer ${key}` }, validateStatus: (status) => status < 500 });
   return response.status === 200 ? console.log("Leads gerados com sucesso:", response.data)
     : console.log(`Leads não foram Gerados, Error ${response.status}`)
 };
+
+const validateToken = async (navigate: (path: string) => void) => {
+  const key = localStorage.getItem('Key')
+  if (!key) {
+    navigate("/")
+    return false
+  }                                                                      //por algum motivo do axios, o bearer nao pode vir como segundo parametro
+  const response = await axios.post("http://localhost:3000/verifyToken", {}, { headers: { Authorization: `Bearer ${key}` }, validateStatus: (status) => status < 500 })
+  if (response.status === 200) {
+    return true
+  }
+  console.log(`UserKey não encontrada ${response.statusText}`);
+  navigate("/")
+  return false
+}
 
 export default Leads;

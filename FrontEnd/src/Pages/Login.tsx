@@ -59,7 +59,7 @@ const loginConfirm = async (
   const response = await axios.post("http://localhost:3000/login", loginData,  {validateStatus: (status) => status < 500});
   if(response.status === 200){
     const data = response.data.body;
-    localItens(data.token, data.refreshToken, data.ploomesId, loginEmail)
+    localItens(data.key, data.ploomesId, loginEmail)
     toast.success("Logando", {position: "top-right",theme: "colored"}) 
     return navigate("/Leads")
   }
