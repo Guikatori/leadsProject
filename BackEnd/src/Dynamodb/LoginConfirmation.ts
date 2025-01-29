@@ -18,6 +18,7 @@ const LoginConfirmation = async (Email: string, Password: string) => {
     };
 
     const result = await client.send(new ScanCommand(params));
+    console.log(result)
     return result.Count > 0 ? result : null
 };
 

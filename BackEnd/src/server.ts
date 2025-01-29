@@ -28,12 +28,15 @@ app.post("/add-user", async (req, res) => {
 })
 
 app.post("/leadsPicker", async (req, res) => {
-
   const { country, limit } = req.body;
-  if (!country || !limit) {
-    res.status(400).json({ message: "country e limit são obrigatórios." });
-    return;
+  const authHeader = req.headers.authorization;
+  if(!authHeader){
+    return res.status(400).json({ message: "Token não encontrado." });
   }
+  if (!country || !limit) {
+    return res.status(400).json({ message: "country e limit são obrigatórios." });
+  }
+
   const response = await pickLeads(country, parseInt(limit, 10))
   if (response.statusCode === 200) {
     res.status(200).json({ message: "Leads encontrados", leads: response.data });
@@ -51,7 +54,7 @@ app.post("/login", async (req, res) => {
   const result = await LoginConfirmation(loginEmail, loginPassword);
   if (result !== null) {
     const ploomesId = result.Items[0].ploomesId.S,
-          token = result.Items[0].token.S,
+          token = result.Items[0].userKey.S,
           leadsRemaining = result.Items[0].leadsRemaining.S
     return res.status(200).json({ message: "Login Encontrado", body: {ploomesId: ploomesId, key: token, leadsRemaining: leadsRemaining } })
   }

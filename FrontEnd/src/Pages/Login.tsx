@@ -61,7 +61,8 @@ const loginConfirm = async (
     const data = response.data.body;
     localItens(data.key, data.ploomesId, loginEmail)
     toast.success("Logando", {position: "top-right",theme: "colored"}) 
-    return navigate("/Leads")
+    navigate("/Leads")
+    return
   }
   console.log(`Erro na Verificação da conta ${response.statusText}`);
   return toast.error("A conta não existe", {position: "top-right",theme: "colored"})

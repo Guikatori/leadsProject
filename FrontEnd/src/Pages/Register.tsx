@@ -137,7 +137,8 @@ const handleSubmit = async (
     const responsebody = response.data.body
     localItens(responsebody.data.key, ploomesId, email)
     toast.success('Registro feito com sucesso!', {theme: "colored", position: "top-right"})
-    return navigate('/Leads');
+    navigate('/Leads');
+    return 
 }
     console.log(`Erro na Verificação da conta: ${response.statusText}`);
     return toast.error("Erro na Verificação da conta", {position: "top-right",theme: "colored"})
