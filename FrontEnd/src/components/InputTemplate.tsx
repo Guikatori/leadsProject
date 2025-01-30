@@ -1,6 +1,7 @@
-import React from "react";
+import React, { ElementType, JSXElementConstructor } from "react";
 import "./InputTemplate.css"
 import AdbIcon from '@mui/icons-material/Adb';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
 
 interface InputProps{
     id: string;
@@ -14,18 +15,9 @@ interface InputProps{
     maxLength?: number;
     min?: number;
     max?: number;
-    iconFunction?: string;
-    icon? : boolean
+    iconFunction?: ()=> void;
+    icon? : boolean,
 }
-
-const icons = (iconFunction: any)=>{
-  return (
-    <div onClick={() => {iconFunction}} style={{marginTop: "5px"}}>
-    <AdbIcon/>
-  </div>
-  )
-}
-
 const InputTemplate = (props: InputProps) => {
     return (
       <div>
@@ -43,10 +35,22 @@ const InputTemplate = (props: InputProps) => {
           min={props.min}
           max={props.max}
           required
+          style={{ paddingRight: props.icon ? "18px" : undefined }}
         />
-        {props.icon ? icons(props.iconFunction) : ""}
         </div>      
       </div>
     );
   };
+
+
+
+/*
+{props.icon && (
+          <div onClick={props.iconFunction}
+          style={{position: "absolute", marginLeft: "340px", display: "flex", cursor:"pointer",marginTop: "5px"}}>
+            <AdbIcon/> 
+          </div>
+        )}
+*/
+
 export default InputTemplate;

@@ -50,6 +50,7 @@ function RegisterPage() {
                   class="input"
                   minLength={5}
                   maxLength={100}
+                  icon={true}
                 />
 
                 <MaskInput
@@ -57,7 +58,7 @@ function RegisterPage() {
                   placeholder="Insira Seu Telefone"
                   mask="(__) _____-____"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => setPhone(e.target.value)}                  
                 />
                  <div style={{display: 'flex'}}>
                 <InputTemplate

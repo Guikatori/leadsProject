@@ -66,7 +66,7 @@ const loginConfirm = async (
   }
   console.log(`Erro na Verificação da conta ${response.statusText}`);
   removeLocalItens()
-  return toast.error("Login ou Senha", {position: "top-right",theme: "colored"})
+  return toast.error("Login ou Senha está Incorreto", {position: "top-right",theme: "colored"})
   }
 
 

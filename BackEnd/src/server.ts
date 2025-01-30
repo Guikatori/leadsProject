@@ -67,9 +67,9 @@ app.post("/login", async (req, res) => {
   }
   const result = await LoginConfirmation(loginEmail, loginPassword);
   if (result !== null) {
-    const ploomesId = result.Items[0].ploomesId.S,
+    const ploomesId = result.Items[0].ploomesId.N,
       token = result.Items[0].userKey.S,
-      leadsRemaining = result.Items[0].leadsRemaining.S
+      leadsRemaining = result.Items[0].leadsRemaining.N
     return res.status(200).json({ message: "Login Encontrado", body: { ploomesId: ploomesId, key: token, leadsRemaining: leadsRemaining } })
   }
   return res.status(401).json({ message: "Erro ao Achar Conta" });
