@@ -36,7 +36,11 @@ app.post("/leadsPicker", async (req, res) => {
   if (!country || !limit) {
     return res.status(400).json({ message: "country e limit são obrigatórios." });
   }
-
+  const token = authHeader.split(" ")[1];
+  const tokenIsValid = verifyToken(token)
+  if(!tokenIsValid){
+    return res.status(400).json({ message: "country e limit são obrigatórios." });
+  }
   const response = await pickLeads(country, parseInt(limit, 10))
   if (response.statusCode === 200) {
     res.status(200).json({ message: "Leads encontrados", leads: response.data });

@@ -13,12 +13,13 @@ const Leads = () => {
   const [country, setCountry] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const checkAuthentication = async () => {
-    const isValid = await validateToken(navigate);
-    return setIsAuthenticated(isValid);
-  };
-
-  checkAuthentication()
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      const isValid = await validateToken(navigate);
+      setIsAuthenticated(isValid);
+    };
+        checkAuthentication(); 
+  }, [navigate]);
 
   return isAuthenticated ? (
     <div style={{ display: "flex", width: "90vw", height: "90vh" }}>
