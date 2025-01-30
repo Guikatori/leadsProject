@@ -46,14 +46,17 @@ function LoginPage() {
 }
 
 const loginConfirm = async (
-  e: React.FormEvent<HTMLFormElement>, 
+  e: React.FormEvent<HTMLFormElement>,
   loginEmail: string,
   loginPassword: string,
   navigate: (path: string) => void
 ) => {
-  e.preventDefault();   const loginData = {
-    loginEmail, 
-    loginPassword
+  e.preventDefault(); 
+  const ploomesId = localStorage.getItem('ploomesId')
+  const loginData = {
+    loginEmail,
+    loginPassword,
+    ploomesId
   }
     
   const response = await axios.post("http://localhost:3000/login", loginData,  {validateStatus: (status) => status < 500});
@@ -65,7 +68,7 @@ const loginConfirm = async (
     return
   }
   console.log(`Erro na Verificação da conta ${response.statusText}`);
-  return toast.error("A conta não existe", {position: "top-right",theme: "colored"})
+  return toast.error("Login ou Senha Incorretos", {position: "top-right",theme: "colored"})
   }
 
 

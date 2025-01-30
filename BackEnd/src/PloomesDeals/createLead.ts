@@ -15,10 +15,9 @@ export const createLead = async (Items) => {
    }
 */
 
-export const createLeads = async (Items) => {
-    const ownerId = 40079953
+export const createLeads = async (Items, ploomesId) => {
     const promises = Items.map(item => {
-        const contactData = createContact(item, ownerId)
+        const contactData = createContact(item, ploomesId)
         return contactData ? contactData : null
     });
     const contacts = await Promise.all(promises)

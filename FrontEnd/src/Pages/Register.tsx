@@ -11,6 +11,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import { IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { localItens } from "../utils/localItens";
+import { Link } from "react-router-dom";
 
 function RegisterPage() {
   const [name, setName] = useState('');
@@ -84,6 +85,9 @@ function RegisterPage() {
                 />
                   <IconButton  onClick={()=> setisVisible(!isVisible)} type="button" style={{ position: "absolute", marginTop: '18px', marginLeft: "320px"}}>{!isVisible ? <VisibilityOff /> : <Visibility />}</IconButton>
                 </div>
+                <p className="greyText">
+                 Já possui uma conta? <Link to="/" className="register">Login</Link>
+                </p>
               </div>
               <ButtonTemplate name="Registre-Se" formsSubmit={true} />
             </div>
