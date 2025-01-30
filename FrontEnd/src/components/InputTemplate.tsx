@@ -15,6 +15,7 @@ interface InputProps{
     maxLength?: number;
     min?: number;
     max?: number;
+    style?:  React.CSSProperties;
     iconFunction?: ()=> void;
     icon? : boolean,
 }
@@ -35,8 +36,8 @@ const InputTemplate = (props: InputProps) => {
           min={props.min}
           max={props.max}
           required
-          style={{ paddingRight: props.icon ? "18px" : undefined }}
-        />
+          style={props.style}
+          />
         </div>      
       </div>
     );

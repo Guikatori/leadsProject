@@ -44,13 +44,10 @@ app.post("/leadsPicker", async (req, res) => {
   if (!tokenIsValid) {
     return res.status(401).json({ message: "Token não é válido." });
   }
-
   const ploomesIdIsValid = await getPloomesId(false, ploomesId);
-
   if(!ploomesIdIsValid){
     return res.status(401).json({message: "Ploomes id Inválida"})
   }
-
   const response = await pickLeads(country, parseInt(limit, 10))
   if (response.statusCode === 200) {
     res.status(200).json({ message: "Leads encontrados", leads: response.data });

@@ -87,7 +87,7 @@ function RegisterPage() {
                   <IconButton  onClick={()=> setisVisible(!isVisible)} type="button" style={{ position: "absolute", marginTop: '18px', marginLeft: "320px"}}>{!isVisible ? <VisibilityOff /> : <Visibility />}</IconButton>
                 </div>
                 <p className="greyText">
-                 Já possui uma conta? <Link to="/" className="register">Login</Link>
+                 Já possui uma conta? <Link to="/login" className="register">Login</Link>
                 </p>
               </div>
               <ButtonTemplate name="Registre-Se" formsSubmit={true} />

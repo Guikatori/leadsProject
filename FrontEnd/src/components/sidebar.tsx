@@ -67,7 +67,7 @@ const SidebarExample: React.FC = () => {
             }}
           >
             <ListItemButton>
-              <ListItemText primary="Sair" onClick={()=>{removeLocalItens(), navigate("/")}}/>
+              <ListItemText primary="Sair" onClick={()=>{removeLocalItens(), navigate("/login")}}/>
             </ListItemButton>
           </ListItem>
         </List>

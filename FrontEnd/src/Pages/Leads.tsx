@@ -36,16 +36,17 @@ const Leads = () => {
                 id="leadsNumber"
                 placeholder="Quantidade de Leads"
                 type="number"
-                value={leadsNumber > 10 ? "10" : leadsNumber.toString()}
+                value={leadsNumber > 10 ? "10" : (leadsNumber < 1 ? "" : leadsNumber.toString())}
                 onChange={(e) => setLeadsNumber(parseInt(e.target.value, 10))}
                 class="leadInput"
                 min={1}
                 max={10}
+                style={{width: "225px", marginLeft: "25px", fontWeight: "600px", justifyItems: "center"}}
               />
             </div>
             <div className="form-item">
               <SelectTemplate
-                options={["PR", "SP", "RJ"]}
+                options={["PR","SP","RJ"]}
                 onChange={(value) => setCountry(value)}
               />
             </div>
@@ -81,7 +82,7 @@ const createLeadHandleSubmit = async (leadsNumber: number, country: string) => {
 const validateToken = async (navigate: (path: string) => void) => {
   const key = localStorage.getItem('Key')
   if (!key) {
-    navigate("/")
+    navigate("/login")
     return false
   }                                                                      //por algum motivo do axios, o bearer nao pode vir como segundo parametro
   const response = await axios.get("http://localhost:3000/verifyToken", { headers: { Authorization: `Bearer ${key}` }, validateStatus: (status) => status < 500 })
@@ -89,7 +90,7 @@ const validateToken = async (navigate: (path: string) => void) => {
     return true
   }
   console.log(`UserKey não encontrada ${response.statusText}`);
-  navigate("/")
+  navigate("/login")
   return false
 }
 
