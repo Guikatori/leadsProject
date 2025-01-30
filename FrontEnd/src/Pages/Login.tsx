@@ -52,11 +52,9 @@ const loginConfirm = async (
   navigate: (path: string) => void
 ) => {
   e.preventDefault(); 
-  const ploomesId = localStorage.getItem('ploomesId')
   const loginData = {
     loginEmail,
     loginPassword,
-    ploomesId
   }
     
   const response = await axios.post("http://localhost:3000/login", loginData,  {validateStatus: (status) => status < 500});

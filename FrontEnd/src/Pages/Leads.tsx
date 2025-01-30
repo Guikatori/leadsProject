@@ -60,9 +60,11 @@ const Leads = () => {
 
 const createLeadHandleSubmit = async (leadsNumber: number, country: string) => {
   const key = localStorage.getItem('Key')
+  const ploomesId = localStorage.getItem('ploomesId')
   const leadsData = {
     country,
-    limit: leadsNumber > 10 ? 10 : leadsNumber
+    limit: leadsNumber > 10 ? 10 : leadsNumber,
+    ploomesId
   };
   const response = await axios.post("http://localhost:3000/leadsPicker", leadsData, { headers: { Authorization: `Bearer ${key}` }, validateStatus: (status) => status < 500 });
   return response.status === 200 ? console.log("Leads gerados com sucesso:", response.data)
