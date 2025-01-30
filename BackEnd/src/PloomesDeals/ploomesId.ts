@@ -4,8 +4,11 @@ import * as dotenv from "dotenv";
 
 dotenv.config()
 
-const getPloomesId = async (email: string) => {
-  const url = `${process.env.BASEURL}/Users?$top=1&$select=Id&$filter=Email eq '${email}'`;
+const getPloomesId = async (isVerifyEmail: boolean, param: string) => {
+  const filter = isVerifyEmail ? `Email eq '${param}'` : `Id eq ${param}`
+  const url = `${process.env.BASEURL}/Users?$top=1&$select=Id&$filter=${filter}`;
+  console.log(url)
+  
 const response = await fetch(url, {
       method: "GET",
       headers: authHeaders, 
@@ -15,10 +18,11 @@ const response = await fetch(url, {
       const data =  await response.json();
       console.log(data)
       return data.value.length > 0
-       ? data.value[0].Id.toString() 
-       : null;
+       ? data.value[0].Id 
+       : 0;
     }
     return handleStatus(response.status, await response.text())
     }
 
 export default getPloomesId;
+

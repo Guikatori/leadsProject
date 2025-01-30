@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify'
 import { IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { localItens } from "../utils/localItens";
+import { localItens, removeLocalItens } from "../utils/localItens";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -46,15 +46,14 @@ function LoginPage() {
 }
 
 const loginConfirm = async (
-  e: React.FormEvent<HTMLFormElement>,
+  e: React.FormEvent<HTMLFormElement>, 
   loginEmail: string,
   loginPassword: string,
   navigate: (path: string) => void
 ) => {
-  e.preventDefault(); 
-  const loginData = {
-    loginEmail,
-    loginPassword,
+  e.preventDefault();   const loginData = {
+    loginEmail, 
+    loginPassword
   }
     
   const response = await axios.post("http://localhost:3000/login", loginData,  {validateStatus: (status) => status < 500});
@@ -62,11 +61,12 @@ const loginConfirm = async (
     const data = response.data.body;
     localItens(data.key, data.ploomesId, loginEmail)
     toast.success("Logando", {position: "top-right",theme: "colored"}) 
-    navigate("/Leads")
+    navigate('/Leads');
     return
   }
   console.log(`Erro na Verificação da conta ${response.statusText}`);
-  return toast.error("Login ou Senha Incorretos", {position: "top-right",theme: "colored"})
+  removeLocalItens()
+  return toast.error("Login ou Senha", {position: "top-right",theme: "colored"})
   }
 
 

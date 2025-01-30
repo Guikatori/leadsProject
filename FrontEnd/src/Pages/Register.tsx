@@ -124,7 +124,7 @@ const handleSubmit = async (
   }
 
   const responsePloomesId = await axios.post('http://localhost:3000/ploomesId', { email }, {validateStatus: (status) => status < 500});
-  let ploomesId = responsePloomesId.status === 200 ? responsePloomesId.data.data  : "null" 
+  let ploomesId = responsePloomesId.status === 200 ? responsePloomesId.data.data  : 0 
 
   const formData = {
     name,

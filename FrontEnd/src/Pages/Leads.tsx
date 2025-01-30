@@ -6,6 +6,7 @@ import ButtonTemplate from "../components/ButtonTemplate";
 import SelectTemplate from "../components/selectTemplate";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const Leads = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const Leads = () => {
   return isAuthenticated ? (
     <div style={{ display: "flex", width: "90vw", height: "90vh" }}>
       <SidebarExample />
+      <ToastContainer stacked />
       <div className="forms-container">
         <h1 className="title">Gerar Leads</h1>
         <div className="form-content">
@@ -60,7 +62,12 @@ const Leads = () => {
 
 const createLeadHandleSubmit = async (leadsNumber: number, country: string) => {
   const key = localStorage.getItem('Key')
-  const ploomesId = localStorage.getItem('ploomesId')
+  const ploomesId = Number(localStorage.getItem('ploomesId'))
+  console.log(typeof(ploomesId))
+  if(!ploomesId){
+    toast.error("PloomesId não encontrado", {position: "top-right",theme: "colored"})
+    return
+  }
   const leadsData = {
     country,
     limit: leadsNumber > 10 ? 10 : leadsNumber,

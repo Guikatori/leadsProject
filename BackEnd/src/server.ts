@@ -31,20 +31,27 @@ app.post("/leadsPicker", async (req, res) => {
   const { country, limit, ploomesId } = req.body;
   const authHeader = req.headers.authorization;
   if (!authHeader) {
-    return res.status(400).json({ message: "Token não encontrado." });
+    return res.status(401).json({ message: "Token não encontrado." });
   }
-  if (!country || !limit) {
-    return res.status(400).json({ message: "country e limit são obrigatórios." });
+  if (!country || !limit || !ploomesId) {
+    return res.status(400).json({ message: "Dados Faltantes" });
   }
   const token = authHeader.split(" ")[1];
+  if(!token){
+    return res.status(400).json({ message: "Token não Encontrado." });
+  }
   const tokenIsValid = await verifyToken(token)
   if (!tokenIsValid) {
-    return res.status(400).json({ message: "Token não encontrado." });
+    return res.status(401).json({ message: "Token não é válido." });
   }
+
+  const ploomesIdIsValid = await getPloomesId(false, ploomesId);
+
+  if(!ploomesIdIsValid){
+    return res.status(401).json({message: "Ploomes id Inválida"})
+  }
+
   const response = await pickLeads(country, parseInt(limit, 10))
-  if (!ploomesId) {
-    return res.status(401).json({ message: "PloomesId não pode Ser Nulo." });
-  }
   if (response.statusCode === 200) {
     res.status(200).json({ message: "Leads encontrados", leads: response.data });
     await createLeads(response.data, ploomesId);
@@ -68,7 +75,7 @@ app.post("/login", async (req, res) => {
   return res.status(401).json({ message: "Erro ao Achar Conta" });
 });
 app.post("/ploomesId", async (req, res) => {
-  const ploomesId = await getPloomesId(req.body.email);
+  const ploomesId = await getPloomesId(true, req.body.email);
   if (ploomesId) {
     return res.status(200).json({ message: "Id Encontrado", data: ploomesId, })
   }

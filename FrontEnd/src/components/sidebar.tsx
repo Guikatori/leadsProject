@@ -8,9 +8,12 @@ import {
   ListItemText
 } from '@mui/material';
 import sunhub from "../assets/sunhubbr_logo.jpg";
+import { removeLocalItens } from "../utils/localItens";
+import { useNavigate } from 'react-router-dom';
 
 const SidebarExample: React.FC = () => {
   const [expanded, setExpanded] = useState(true);
+  const navigate = useNavigate()
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -64,7 +67,7 @@ const SidebarExample: React.FC = () => {
             }}
           >
             <ListItemButton>
-              <ListItemText primary="Sair" />
+              <ListItemText primary="Sair" onClick={()=>{removeLocalItens(), navigate("/")}}/>
             </ListItemButton>
           </ListItem>
         </List>
