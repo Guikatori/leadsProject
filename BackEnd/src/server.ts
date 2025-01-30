@@ -88,7 +88,7 @@ app.post("/emailConfirmation", async (req, res) => {
   return hasEmail ? res.status(409).json({ message: "Email já existe" }) : res.status(200).json({ message: "Email não está sendo utilizado" })
 })
 
-app.post("/verifyToken", async (req, res) => {
+app.get("/verifyToken", async (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
     return res.status(400).json({ message: "Token não fornecido" })

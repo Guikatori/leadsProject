@@ -84,7 +84,7 @@ const validateToken = async (navigate: (path: string) => void) => {
     navigate("/")
     return false
   }                                                                      //por algum motivo do axios, o bearer nao pode vir como segundo parametro
-  const response = await axios.post("http://localhost:3000/verifyToken", {}, { headers: { Authorization: `Bearer ${key}` }, validateStatus: (status) => status < 500 })
+  const response = await axios.get("http://localhost:3000/verifyToken", { headers: { Authorization: `Bearer ${key}` }, validateStatus: (status) => status < 500 })
   if (response.status === 200) {
     return true
   }
